@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @keyframes glow-pulse { 0%,100% { opacity: 0.55; } 50% { opacity: 0.9; } }
+    html { background: var(--c-bg); }
+    body { margin: 0; background: var(--c-bg); }
+    ::selection { background: var(--c-gold); color: var(--c-bg); }
+
+    @media (max-width: 860px) {
+      [data-nav-links] { display: none !important; position: absolute; top: 100%; left: 0; right: 0; background: var(--c-bg); border-bottom: 1px solid color-mix(in srgb, var(--c-text) 8%, transparent); flex-direction: column !important; align-items: flex-start !important; padding: 20px clamp(20px,5vw,64px) !important; gap: 18px !important; }
+      #nav-toggle:checked ~ [data-nav-links] { display: flex !important; }
+      [data-nav-links] { order: 4; }
+      [data-nav-cta] { order: 3; }
+      [data-burger] { display: flex !important; }
+    }
+    [data-burger] { display: none; }
+    [data-nav-dropdown] { position: relative; }
+    [data-nav-dropdown] > [data-dropdown-menu] { display:none; position:absolute; top:100%; left:0; margin-top:0; background:var(--c-bg-alt); border:1px solid color-mix(in srgb, var(--c-text) 12%, transparent); border-radius:8px; padding:14px 8px 8px 8px; min-width:230px; flex-direction:column; gap:2px; box-shadow:0 16px 40px rgba(0,0,0,0.5); z-index:50; }
+    [data-nav-dropdown]:hover > [data-dropdown-menu] { display:flex; }
+    [data-dropdown-menu] a:hover { background: color-mix(in srgb, var(--c-text) 7%, transparent); }
+    [data-submenu-panel] { display:none; position:absolute; left:100%; top:-8px; margin-left:0; padding-left:6px; background:transparent; border:none; box-shadow:none; z-index:60; }
+    [data-submenu-panel] > [data-submenu-inner] { background:var(--c-bg-alt); border:1px solid color-mix(in srgb, var(--c-text) 12%, transparent); border-radius:8px; padding:8px; min-width:230px; display:flex; flex-direction:column; gap:2px; box-shadow:0 16px 40px rgba(0,0,0,0.5); }
+    [data-nav-submenu]:hover > [data-submenu-panel] { display:flex; }
+    [data-submenu-panel] a:hover { background: color-mix(in srgb, var(--c-text) 7%, transparent); }
+    @media (max-width: 860px) {
+      [data-nav-dropdown] > [data-dropdown-menu] { position:static; display:flex !important; box-shadow:none; border:none; background:transparent; padding:2px 0 6px 16px; margin-top:6px; min-width:0; }
+      [data-submenu-panel] { position:static; display:flex !important; box-shadow:none; border:none; background:transparent; padding:2px 0 6px 16px; margin-left:0; margin-top:4px; min-width:0; }
+      [data-nav-submenu] [data-submenu-trigger] span { display:none; }
+    }
+  </style>
+  <script src="./reveal.js"></script>
+  <link rel="stylesheet" href="./theme.css">
+  <script src="./theme-toggle.js"></script>
+</helmet>
+
+<div style="background:var(--c-bg); color:var(--c-text); font-family:'Archivo',sans-serif; min-height:100vh; overflow-x:hidden;" data-screen-label="About">
+
+  <!-- SPARK: scroll-companion penguin + WhatsApp button, shared across every page -->
+  <dc-import name="ScrollCompanion" hint-size="70px,90px"></dc-import>
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,64px); background:color-mix(in srgb, var(--c-bg) 82%, transparent); backdrop-filter:blur(12px); border-bottom:1px solid color-mix(in srgb, var(--c-text) 8%, transparent); flex-wrap:wrap; row-gap:12px;">
+    <a href="index.html" style="font-family:'Instrument Serif',serif; font-size:26px; letter-spacing:0.04em; color:var(--c-text); text-decoration:none; display:flex; align-items:center; gap:10px;">
+      <img data-brand-logo src="assets/logo-white-gold-final.png" alt="Archangel Digital Studios" style="height:38px; width:auto; display:block;">
+    </a>
+    <input type="checkbox" id="nav-toggle" style="display:none;">
+    <label for="nav-toggle" data-burger style="align-items:center; justify-content:center; width:34px; height:34px; cursor:pointer; order:2;">
+      <svg width="22" height="16" viewBox="0 0 22 16" fill="none" stroke="var(--c-text)" stroke-width="2" stroke-linecap="round"><line x1="0" y1="1" x2="22" y2="1"></line><line x1="0" y1="8" x2="22" y2="8"></line><line x1="0" y1="15" x2="22" y2="15"></line></svg>
+    </label>
+    <div data-nav-links style="display:flex; align-items:center; gap:clamp(14px,3vw,40px); flex-wrap:wrap;">
+      <a href="index.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Home</a>
+      <a href="about.html" style="color:var(--c-text); text-decoration:none; font-size:14px; letter-spacing:0.03em; border-bottom:1px solid var(--c-gold); padding-bottom:4px;">About Us</a>
+      <div data-nav-dropdown style="display:flex; align-items:center;">
+      <a href="services.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Our Services <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent); margin-left:2px;">&#9662;</span></a>
+      <div data-dropdown-menu>
+      <a href="services.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">All Services</a>
+      <div data-nav-submenu style="position:relative;">
+      <a data-submenu-trigger style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:default;">Digital Marketing Services <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent);">&#9656;</span></a>
+      <div data-submenu-panel>
+      <div data-submenu-inner>
+      <a href="marketing-consultation.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Marketing Consultation</a>
+      <a href="lead-generation.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Lead Generation</a>
+      <a href="seo.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">SEO</a>
+      <a href="social-media-marketing.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Social Media Marketing</a>
+      <a href="loyalty-marketing.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Loyalty Marketing</a>
+      </div>
+      </div>
+      </div>
+      <div data-nav-submenu style="position:relative;">
+      <a data-submenu-trigger style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:default;">Design Services <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent);">&#9656;</span></a>
+      <div data-submenu-panel>
+      <div data-submenu-inner>
+      <a href="website-design.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Website Design</a>
+      <a href="mobile-app-design.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Mobile App Design</a>
+      <a href="Design-services.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Graphic Design</a>
+      </div>
+      </div>
+      </div>
+      <div data-nav-submenu style="position:relative;">
+      <a data-submenu-trigger style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:default;">Creative Services <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent);">&#9656;</span></a>
+      <div data-submenu-panel>
+      <div data-submenu-inner>
+      <a href="photography.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Photography</a>
+      <a href="videography.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Videography</a>
+      </div>
+      </div>
+      </div>
+    </div>
+    </div>
+      <div data-nav-dropdown style="display:flex; align-items:center;">
+      <a href="#" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Industries <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent); margin-left:2px;">&#9662;</span></a>
+      <div data-dropdown-menu>
+      <a href="restaurants.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Restaurants</a>
+      <a href="education.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Education</a>
+      <a href="health-medical.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Health & Medical</a>
+      <a href="interior-design.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Interior Design</a>
+    </div>
+    </div>
+      <a href="work.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Case Studies</a>
+      <a href="contact.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Contact Us</a>
+    </div>
+    <a data-btn="" href="contact.html" style="background:var(--c-red); color:#f5f1ea; padding:12px 24px; border-radius:2px; font-size:13px; font-weight:600; letter-spacing:0.04em; text-decoration:none; border:1px solid var(--c-gold);" data-nav-cta>Get in Touch</a>
+  <button data-theme-toggle title="Toggle light / dark" aria-label="Toggle light / dark theme" style="margin-left:4px;"><svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path></svg><svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></button>
+  </nav>
+
+  <!-- HERO -->
+  <section style="position:relative; padding:120px clamp(20px,5vw,64px) 100px; overflow:hidden;">
+    <div style="position:absolute; top:-260px; right:-100px; width:700px; height:700px; border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--c-gold) 16%, transparent) 0%, color-mix(in srgb, var(--c-gold) 0%, transparent) 70%); animation:glow-pulse 6s ease-in-out infinite;"></div>
+    <div data-reveal style="position:relative; z-index:2; max-width:1280px; margin:0 auto; opacity:0; transform:translateY(24px);">
+      <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:20px;">ABOUT US</div>
+      <h1 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(36px,7vw,72px); margin:0 0 28px; max-width:760px; line-height:1.08;">Quality digital marketing. <span style="font-style:italic; color:var(--c-gold);">Real results.</span></h1>
+      <p style="font-size:19px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 78%, transparent); max-width:640px; margin:0;">A marketing consultancy with a proven formula for growth &mdash; for restaurant, education, health &amp; medical, and interior design brands.</p>
+    </div>
+  </section>
+
+  <!-- MISSION / VISION -->
+  <section style="padding:0 clamp(20px,5vw,64px) 120px; max-width:1280px; margin:0 auto;">
+    <div data-reveal style="max-width:760px; margin:0 auto 100px; opacity:0; transform:translateY(24px);">
+      <div>
+        <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:16px;">OUR MISSION</div>
+        <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(22px,3.6vw,32px); margin:0 0 16px; line-height:1.25;">To provide exceptional digital marketing solutions that drive real results for our clients.</h2>
+        <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-red); margin:32px 0 16px;">OUR VISION</div>
+        <p style="font-size:16px; line-height:1.7; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0;">To be the most innovative and effective digital marketing agency, empowering businesses to succeed in the ever-changing digital landscape.</p>
+      </div>
+    </div>
+
+    <!-- OUR STORY -->
+    <div data-reveal style="text-align:center; margin-bottom:56px; opacity:0; transform:translateY(24px);">
+      <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:16px;">SINCE THE START OF THE WEB</div>
+      <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(26px,4.5vw,44px); margin:0;">Our Story</h2>
+    </div>
+    <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:clamp(20px,4vw,40px); margin-bottom:120px; opacity:0; transform:translateY(24px);">
+      <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="3">
+        <div style="border-top:2px solid var(--c-gold); padding-top:20px;">
+          <div style="font-family:'Instrument Serif',serif; font-size:clamp(28px,4vw,38px); color:var(--c-gold); margin-bottom:12px;">{{ t.year }}</div>
+          <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 78%, transparent); margin:0;">{{ t.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- OUR EXPERTISE -->
+    <div data-reveal style="text-align:center; margin-bottom:56px; opacity:0; transform:translateY(24px);">
+      <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:16px;">WHAT'S UNIQUE ABOUT US</div>
+      <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(26px,4.5vw,44px); margin:0 0 16px;">Our Expertise</h2>
+      <p style="font-size:16px; line-height:1.6; color:color-mix(in srgb, var(--c-text) 72%, transparent); max-width:640px; margin:0 auto;">A digital DNA gained from the very inception of the internet &mdash; not a crash course.</p>
+    </div>
+    <div data-reveal style="display:grid; grid-template-columns:repeat(2, 1fr); gap:1px; background:color-mix(in srgb, var(--c-text) 8%, transparent); border:1px solid color-mix(in srgb, var(--c-text) 8%, transparent); margin-bottom:120px; opacity:0; transform:translateY(24px);">
+      <div style="background:var(--c-bg-alt); padding:36px 30px;">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="var(--c-gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:18px; display:block;"><circle cx="22" cy="22" r="16"></circle><path d="M22 6c4 4.5 6 9.8 6 16s-2 11.5-6 16M22 6c-4 4.5-6 9.8-6 16s2 11.5 6 16M6 22h32"></path></svg>
+        <h3 style="font-size:17px; font-weight:600; margin:0 0 10px; color:var(--c-gold);">A Digital DNA</h3>
+        <p style="font-size:14px; line-height:1.6; color:color-mix(in srgb, var(--c-text) 70%, transparent); margin:0;">We grew up during the invention of the internet &mdash; early adopters of the digital boom, pioneers of the mIRC, ICQ, Geocities and Blogger.com era.</p>
+      </div>
+      <div style="background:var(--c-bg-alt); padding:36px 30px;">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="var(--c-gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:18px; display:block;"><circle cx="22" cy="22" r="15"></circle><circle cx="22" cy="22" r="8"></circle><circle cx="22" cy="22" r="1.6" fill="var(--c-gold)"></circle></svg>
+        <h3 style="font-size:17px; font-weight:600; margin:0 0 10px; color:var(--c-gold);">Precision &amp; Clarity</h3>
+        <p style="font-size:14px; line-height:1.6; color:color-mix(in srgb, var(--c-text) 70%, transparent); margin:0;">We cut through the noise to identify and implement exactly what your business needs to succeed.</p>
+      </div>
+      <div style="background:var(--c-bg-alt); padding:36px 30px;">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="var(--c-gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:18px; display:block;"><path d="M22 6 8 13v9c0 9 6 14.5 14 16 8-1.5 14-7 14-16v-9Z"></path><path d="M16 22l4 4 8-9"></path></svg>
+        <h3 style="font-size:17px; font-weight:600; margin:0 0 10px; color:var(--c-gold);">Specialised Skills</h3>
+        <p style="font-size:14px; line-height:1.6; color:color-mix(in srgb, var(--c-text) 70%, transparent); margin:0;">Targeted digital marketing skills, developed and sharpened over two decades.</p>
+      </div>
+      <div style="background:var(--c-bg-alt); padding:36px 30px;">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="var(--c-gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:18px; display:block;"><path d="M6 32 16 20l8 6 12-16"></path><path d="M30 10h8v8"></path></svg>
+        <h3 style="font-size:17px; font-weight:600; margin:0 0 10px; color:var(--c-gold);">Revenue Focus</h3>
+        <p style="font-size:14px; line-height:1.6; color:color-mix(in srgb, var(--c-text) 70%, transparent); margin:0;">We prioritise strategies and actions that directly contribute to increasing your revenue.</p>
+      </div>
+      <div style="background:var(--c-bg-alt); padding:36px 30px;">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="var(--c-gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:18px; display:block;"><rect x="12" y="14" width="20" height="18" rx="4"></rect><path d="M22 8v6M17 22h.01M27 22h.01M18 27h8M6 20v6M38 20v6"></path></svg>
+        <h3 style="font-size:17px; font-weight:600; margin:0 0 10px; color:var(--c-gold);">AI-Native Practice</h3>
+        <p style="font-size:14px; line-height:1.6; color:color-mix(in srgb, var(--c-text) 70%, transparent); margin:0;">The same instinct that made us early to the web made us early to AI. We use it daily &mdash; research, creative testing, campaign analysis, automation &mdash; so your budget buys more thinking and faster iteration, with human judgement still making the calls.</p>
+      </div>
+      <div style="background:var(--c-bg-alt); padding:36px 30px;">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="var(--c-gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:18px; display:block;"><circle cx="20" cy="20" r="12"></circle><path d="M29 29l9 9"></path><path d="M14 20h12M20 14v12"></path></svg>
+        <h3 style="font-size:17px; font-weight:600; margin:0 0 10px; color:var(--c-gold);">Found In AI Search</h3>
+        <p style="font-size:14px; line-height:1.6; color:color-mix(in srgb, var(--c-text) 70%, transparent); margin:0;">Customers now ask ChatGPT, Gemini and AI Overviews for recommendations. We make sure your business is one of the few they name &mdash; and that what they say about you is accurate.</p>
+      </div>
+    </div>
+
+    <!-- OUR PROCESS -->
+    <div data-reveal style="text-align:center; margin-bottom:56px; opacity:0; transform:translateY(24px);">
+      <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:16px;">HOW WE WORK</div>
+      <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(26px,4.5vw,44px); margin:0;">Our Process</h2>
+    </div>
+    <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:20px; margin-bottom:120px; opacity:0; transform:translateY(24px);">
+      <sc-for list="{{ process }}" as="s" hint-placeholder-count="9">
+        <div style="display:flex; align-items:flex-start; gap:14px;">
+          <div style="font-family:'Instrument Serif',serif; font-size:20px; color:var(--c-gold); flex-shrink:0; width:28px;">{{ s.num }}</div>
+          <div style="font-size:14.5px; line-height:1.5; color:color-mix(in srgb, var(--c-text) 72%, transparent); padding-top:2px;">{{ s.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- WHY US -->
+    <div data-reveal style="text-align:center; margin-bottom:56px; opacity:0; transform:translateY(24px);">
+      <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-red); margin-bottom:16px;">WHY US</div>
+      <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(26px,4.5vw,44px); margin:0;">The Archangel Difference</h2>
+    </div>
+    <div data-reveal style="display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; opacity:0; transform:translateY(24px);">
+      <div style="border:1px solid color-mix(in srgb, var(--c-text) 10%, transparent); border-radius:4px; padding:32px;">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="var(--c-red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:18px; display:block;"><rect x="7" y="7" width="26" height="26" rx="3"></rect><path d="M14 20h12M20 14v12"></path></svg>
+        <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0;">We specialise in customised marketing solutions built to help businesses achieve their goals.</p>
+      </div>
+      <div style="border:1px solid color-mix(in srgb, var(--c-text) 10%, transparent); border-radius:4px; padding:32px;">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="var(--c-red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:18px; display:block;"><path d="M6 30V20M15 30V13M24 30V17M33 30V8"></path><path d="M6 8l12 8 6-4 9 6" stroke-linejoin="round"></path></svg>
+        <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0;">Tried and tested &mdash; we're experts at making money for our clients online, with proven results of growth up to 70%.</p>
+      </div>
+      <div style="border:1px solid color-mix(in srgb, var(--c-text) 10%, transparent); border-radius:4px; padding:32px;">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="var(--c-red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:18px; display:block;"><rect x="6" y="9" width="28" height="20" rx="2"></rect><path d="M6 25l8-7 6 5 8-9 6 6"></path><circle cx="14" cy="15" r="2"></circle></svg>
+        <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0;">We work with you to develop eye-catching content and a tailored strategy that meets your unique needs.</p>
+      </div>
+      <div style="border:1px solid color-mix(in srgb, var(--c-text) 10%, transparent); border-radius:4px; padding:32px;">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="var(--c-red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:18px; display:block;"><circle cx="20" cy="20" r="14"></circle><path d="M20 6c3.5 4 5 9 5 14s-1.5 10-5 14M20 6c-3.5 4-5 9-5 14s1.5 10 5 14M6 20h28"></path></svg>
+        <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0;">We're part of the digital boom era, where the internet began. We've grown alongside this space for the past 20 years.</p>
+      </div>
+      <div style="border:1px solid color-mix(in srgb, var(--c-text) 10%, transparent); border-radius:4px; padding:32px;">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="var(--c-red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:18px; display:block;"><path d="M20 33s-13-8-13-18a8 8 0 0 1 13-6 8 8 0 0 1 13 6c0 10-13 18-13 18Z" stroke-linejoin="round"></path></svg>
+        <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0;">We're not just interested in making money from you &mdash; we're interested in growing your business, and will recommend services around that goal.</p>
+      </div>
+      <div style="border:1px solid color-mix(in srgb, var(--c-text) 10%, transparent); border-radius:4px; padding:32px;">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="var(--c-red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:18px; display:block;"><circle cx="14" cy="15" r="5"></circle><circle cx="27" cy="15" r="5"></circle><path d="M5 32c0-5 4-9 9-9s9 4 9 9M18 32c0-5 4-9 9-9s9 4 9 9"></path></svg>
+        <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0;">A true partner invested in growing your business together &mdash; not just billing you.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOOGLE PARTNER -->
+  <section style="padding:100px clamp(20px,5vw,64px); border-top:1px solid color-mix(in srgb, var(--c-text) 8%, transparent); border-bottom:1px solid color-mix(in srgb, var(--c-text) 8%, transparent);">
+    <div data-reveal style="max-width:1280px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:clamp(20px,5vw,64px); align-items:center; opacity:0; transform:translateY(24px);">
+      <div>
+        <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-red); margin-bottom:16px;">CERTIFIED EXCELLENCE</div>
+        <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(24px,4vw,36px); margin:0 0 20px; line-height:1.2;">Backed by Google &amp; Meta Partner status</h2>
+        <p style="font-size:15px; line-height:1.7; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0;">Certified by Google and Meta for performance, expertise, and client satisfaction.</p>
+        <div style="display:flex; gap:clamp(24px,4vw,48px); margin-top:36px;">
+          <div>
+            <div style="font-family:'Instrument Serif',serif; font-size:clamp(26px,3.5vw,36px); color:var(--c-gold);">$1M+</div>
+            <div style="font-size:12.5px; letter-spacing:0.04em; color:color-mix(in srgb, var(--c-text) 68%, transparent); margin-top:6px;">Managed in Google &amp; Meta ad spend</div>
+          </div>
+          <div>
+            <div style="font-family:'Instrument Serif',serif; font-size:clamp(26px,3.5vw,36px); color:var(--c-gold);">20+</div>
+            <div style="font-size:12.5px; letter-spacing:0.04em; color:color-mix(in srgb, var(--c-text) 68%, transparent); margin-top:6px;">Years of hands-on digital experience</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; gap:24px; padding:48px; border:1px solid color-mix(in srgb, var(--c-gold) 25%, transparent); border-radius:4px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:56px; height:56px; border-radius:50%; background:var(--c-text); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="28" height="28" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path></svg>
+          </div>
+          <div style="font-weight:600; font-size:15px;">Google</div>
+        </div>
+        <div style="width:1px; height:40px; background:color-mix(in srgb, var(--c-text) 15%, transparent);"></div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:56px; height:56px; border-radius:50%; background:var(--c-text); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="30" height="30" viewBox="0 0 48 48"><path fill="#0081FB" d="M8 24.6c0-6.4 2.9-13.6 7.3-13.6 2.6 0 4.5 1.8 7.5 6.6l1.9 3 1.9-3c3-4.8 4.9-6.6 7.5-6.6 4.4 0 7.3 7.2 7.3 13.6 0 6.9-2.7 11.2-6.9 11.2-2.3 0-4-1.2-6.7-5.4l-3.1-4.9-3.1 4.9c-2.7 4.2-4.4 5.4-6.7 5.4-4.2 0-6.9-4.3-6.9-11.2Zm4 0c0 4.7 1.5 7.2 2.9 7.2.8 0 1.6-.5 3.7-3.7L24 21.8l-5.4-6.3C16.5 13 15.7 12.5 14.9 12.5c-1.4 0-2.9 2.5-2.9 7.2Zm25.2 0c0-4.7-1.5-7.2-2.9-7.2-.8 0-1.6.5-3.7 3.3L25.2 27l3.4 5.3c2.1 2.6 2.9 3.1 3.7 3.1 1.4 0 2.9-2.5 2.9-7.2Z"></path></svg>
+          </div>
+          <div style="font-weight:600; font-size:15px;">Meta</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section data-reveal style="padding:100px clamp(20px,5vw,64px); background:linear-gradient(160deg, color-mix(in srgb, var(--c-gold) 8%, transparent), transparent 60%); text-align:center; opacity:0; transform:translateY(24px);">
+    <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(26px,4.5vw,44px); margin:0 0 20px;">Let's build your success story</h2>
+    <p style="font-size:16px; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0 0 40px;">Book a free consultation today.</p>
+    <a data-btn="" href="contact.html" style="background:var(--c-gold); color:var(--c-bg); padding:18px 40px; border-radius:2px; font-size:14px; font-weight:600; letter-spacing:0.04em; text-decoration:none;">Get in Touch</a>
+  </section>
+
+  <footer style="padding:clamp(20px,5vw,64px); border-top:1px solid color-mix(in srgb, var(--c-text) 8%, transparent); display:flex; justify-content:space-between; flex-wrap:wrap; gap:40px;">
+    <div style="max-width:320px;">
+      <img data-brand-logo src="assets/logo-white-gold-final.png" alt="Archangel Digital Studios" style="height:84px; width:auto; margin-bottom:20px;">
+      <p style="font-size:16px; color:color-mix(in srgb, var(--c-text) 78%, transparent); line-height:1.6;">A boutique digital marketing studio, delivering over 1000% average ROI.</p>
+    </div>
+    <div style="display:flex; gap:clamp(28px,6vw,80px);">
+      <div>
+        <div style="font-size:12px; letter-spacing:0.1em; color:color-mix(in srgb, var(--c-text) 62%, transparent); margin-bottom:16px;">SITE</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px;">
+          <a href="index.html" style="color:var(--c-text); text-decoration:none;">Home</a>
+          <a href="about.html" style="color:var(--c-text); text-decoration:none;">About Us</a>
+          <a href="services.html" style="color:var(--c-text); text-decoration:none;">Our Services</a>
+          <a href="work.html" style="color:var(--c-text); text-decoration:none;">Case Studies</a>
+          <a href="contact.html" style="color:var(--c-text); text-decoration:none;">Contact Us</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px; letter-spacing:0.1em; color:color-mix(in srgb, var(--c-text) 62%, transparent); margin-bottom:16px;">CONNECT</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; color:color-mix(in srgb, var(--c-text) 80%, transparent);">
+          <a href="mailto:accounts@archangeldigitalstudios.com" style="color:inherit; text-decoration:none;">accounts@archangeldigitalstudios.com</a>
+          <a href="https://wa.me/6590587338" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">WhatsApp Us &mdash; 9058 7338</a>
+          <span>Singapore | Malaysia | Indonesia | Australia</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <div style="text-align:center; padding:20px; font-size:12px; color:color-mix(in srgb, var(--c-text) 60%, transparent); border-top:1px solid color-mix(in srgb, var(--c-text) 6%, transparent);">Copyright &copy; 2026 Archangel Digital Studios. We are a certified Google &amp; Meta Partner agency.</div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      timeline: [
+        { year: "1983\u20131991", desc: "Born in the Information Age, growing up alongside the invention and rise of the World Wide Web." },
+        { year: "2006", desc: "Archangel Studios founded as a web hosting company \u2014 the idea behind Archangel was born during this time, planting the seed for what would become a full digital marketing studio." },
+        { year: "2017 \u2013 2026", desc: "Archangel Digital Studios evolved into a full-service growth partner \u2014 over $1 million invested in Meta & Google ad spend on behalf of our clients, and a certified Google & Meta Partner agency." }
+      ],
+      expertise: [],
+      process: [
+        { num: "01", label: "Assess your needs" },
+        { num: "02", label: "Research your industry" },
+        { num: "03", label: "Research your business" },
+        { num: "04", label: "Research your digital footprint & awareness" },
+        { num: "05", label: "Share our assessment results with you" },
+        { num: "06", label: "Recommend the right services for you" },
+        { num: "07", label: "Sign off on administration" },
+        { num: "08", label: "Get started" },
+        { num: "09", label: "Fortnightly check-ins & monthly reports" }
+      ],
+      whyUs: []
+    };
+  }
+}
+</script>
+</body>
+</html>

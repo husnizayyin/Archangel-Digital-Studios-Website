@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @keyframes glow-pulse { 0%,100% { opacity: 0.55; } 50% { opacity: 0.9; } }
+    html { background: var(--c-bg); }
+    body { margin: 0; background: var(--c-bg); }
+    ::selection { background: var(--c-gold); color: var(--c-bg); }
+
+    @media (max-width: 860px) {
+      [data-nav-links] { display: none !important; position: absolute; top: 100%; left: 0; right: 0; background: var(--c-bg); border-bottom: 1px solid color-mix(in srgb, var(--c-text) 8%, transparent); flex-direction: column !important; align-items: flex-start !important; padding: 20px clamp(20px,5vw,64px) !important; gap: 18px !important; }
+      #nav-toggle:checked ~ [data-nav-links] { display: flex !important; }
+      [data-nav-links] { order: 4; }
+      [data-nav-cta] { order: 3; }
+      [data-burger] { display: flex !important; }
+    }
+    [data-burger] { display: none; }
+    [data-nav-dropdown] { position: relative; }
+    [data-nav-dropdown] > [data-dropdown-menu] { display:none; position:absolute; top:100%; left:0; margin-top:0; background:var(--c-bg-alt); border:1px solid color-mix(in srgb, var(--c-text) 12%, transparent); border-radius:8px; padding:14px 8px 8px 8px; min-width:230px; flex-direction:column; gap:2px; box-shadow:0 16px 40px rgba(0,0,0,0.5); z-index:50; }
+    [data-nav-dropdown]:hover > [data-dropdown-menu] { display:flex; }
+    [data-dropdown-menu] a:hover { background: color-mix(in srgb, var(--c-text) 7%, transparent); }
+    [data-submenu-panel] { display:none; position:absolute; left:100%; top:-8px; margin-left:0; padding-left:6px; background:transparent; border:none; box-shadow:none; z-index:60; }
+    [data-submenu-panel] > [data-submenu-inner] { background:var(--c-bg-alt); border:1px solid color-mix(in srgb, var(--c-text) 12%, transparent); border-radius:8px; padding:8px; min-width:230px; display:flex; flex-direction:column; gap:2px; box-shadow:0 16px 40px rgba(0,0,0,0.5); }
+    [data-nav-submenu]:hover > [data-submenu-panel] { display:flex; }
+    [data-submenu-panel] a:hover { background: color-mix(in srgb, var(--c-text) 7%, transparent); }
+    @media (max-width: 860px) {
+      [data-nav-dropdown] > [data-dropdown-menu] { position:static; display:flex !important; box-shadow:none; border:none; background:transparent; padding:2px 0 6px 16px; margin-top:6px; min-width:0; }
+      [data-submenu-panel] { position:static; display:flex !important; box-shadow:none; border:none; background:transparent; padding:2px 0 6px 16px; margin-left:0; margin-top:4px; min-width:0; }
+      [data-nav-submenu] [data-submenu-trigger] span { display:none; }
+    }
+  </style>
+  <script src="./reveal.js"></script>
+  <link rel="stylesheet" href="./theme.css">
+  <script src="./theme-toggle.js"></script>
+</helmet>
+
+<div style="background:var(--c-bg); color:var(--c-text); font-family:'Archivo',sans-serif; min-height:100vh; overflow-x:hidden;" data-screen-label="Photography">
+
+  <!-- SPARK: scroll-companion penguin + WhatsApp button, shared across every page -->
+  <dc-import name="ScrollCompanion" hint-size="70px,90px"></dc-import>
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,64px); background:color-mix(in srgb, var(--c-bg) 82%, transparent); backdrop-filter:blur(12px); border-bottom:1px solid color-mix(in srgb, var(--c-text) 8%, transparent); flex-wrap:wrap; row-gap:12px;">
+    <a href="index.html" style="font-family:'Instrument Serif',serif; font-size:26px; letter-spacing:0.04em; color:var(--c-text); text-decoration:none; display:flex; align-items:center; gap:10px;">
+      <img data-brand-logo src="assets/logo-white-gold-final.png" alt="Archangel Digital Studios" style="height:38px; width:auto; display:block;">
+    </a>
+    <input type="checkbox" id="nav-toggle" style="display:none;">
+    <label for="nav-toggle" data-burger style="align-items:center; justify-content:center; width:34px; height:34px; cursor:pointer; order:2;">
+      <svg width="22" height="16" viewBox="0 0 22 16" fill="none" stroke="var(--c-text)" stroke-width="2" stroke-linecap="round"><line x1="0" y1="1" x2="22" y2="1"></line><line x1="0" y1="8" x2="22" y2="8"></line><line x1="0" y1="15" x2="22" y2="15"></line></svg>
+    </label>
+    <div data-nav-links style="display:flex; align-items:center; gap:clamp(14px,3vw,40px); flex-wrap:wrap;">
+      <a href="index.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Home</a>
+      <a href="about.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">About Us</a>
+      <div data-nav-dropdown style="display:flex; align-items:center;">
+      <a href="services.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Our Services <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent); margin-left:2px;">&#9662;</span></a>
+      <div data-dropdown-menu>
+      <a href="services.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">All Services</a>
+      <div data-nav-submenu style="position:relative;">
+      <a data-submenu-trigger style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:default;">Digital Marketing Services <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent);">&#9656;</span></a>
+      <div data-submenu-panel>
+      <div data-submenu-inner>
+      <a href="marketing-consultation.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Marketing Consultation</a>
+      <a href="lead-generation.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Lead Generation</a>
+      <a href="seo.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">SEO</a>
+      <a href="social-media-marketing.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Social Media Marketing</a>
+      <a href="loyalty-marketing.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Loyalty Marketing</a>
+      </div>
+      </div>
+      </div>
+      <div data-nav-submenu style="position:relative;">
+      <a data-submenu-trigger style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:default;">Design Services <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent);">&#9656;</span></a>
+      <div data-submenu-panel>
+      <div data-submenu-inner>
+      <a href="website-design.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Website Design</a>
+      <a href="mobile-app-design.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Mobile App Design</a>
+      <a href="Design-services.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Graphic Design</a>
+      </div>
+      </div>
+      </div>
+      <div data-nav-submenu style="position:relative;">
+      <a data-submenu-trigger style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:default;">Creative Services <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent);">&#9656;</span></a>
+      <div data-submenu-panel>
+      <div data-submenu-inner>
+      <a href="photography.html" style="color:var(--c-text); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block; background:color-mix(in srgb, var(--c-text) 7%, transparent);">Photography</a>
+      <a href="videography.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Videography</a>
+      </div>
+      </div>
+      </div>
+    </div>
+    </div>
+      <div data-nav-dropdown style="display:flex; align-items:center;">
+      <a href="#" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Industries <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent); margin-left:2px;">&#9662;</span></a>
+      <div data-dropdown-menu>
+      <a href="restaurants.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Restaurants</a>
+      <a href="education.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Education</a>
+      <a href="health-medical.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Health & Medical</a>
+      <a href="interior-design.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Interior Design</a>
+    </div>
+    </div>
+      <a href="work.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Case Studies</a>
+      <a href="contact.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Contact Us</a>
+    </div>
+    <a data-btn="" href="contact.html" style="background:var(--c-red); color:#f5f1ea; padding:12px 24px; border-radius:2px; font-size:13px; font-weight:600; letter-spacing:0.04em; text-decoration:none; border:1px solid var(--c-gold);" data-nav-cta>Get in Touch</a>
+  <button data-theme-toggle title="Toggle light / dark" aria-label="Toggle light / dark theme" style="margin-left:4px;"><svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path></svg><svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></button>
+  </nav>
+
+  <!-- HERO -->
+  <section style="position:relative; padding:120px clamp(20px,5vw,64px) 90px; overflow:hidden;">
+    <div style="position:absolute; top:-260px; left:-100px; width:700px; height:700px; border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--c-gold) 16%, transparent) 0%, color-mix(in srgb, var(--c-gold) 0%, transparent) 70%); animation:glow-pulse 6s ease-in-out infinite;"></div>
+    <div data-reveal style="position:relative; z-index:2; max-width:1280px; margin:0 auto; opacity:0; transform:translateY(24px);">
+      <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:20px;">PHOTOGRAPHY</div>
+      <h1 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(34px,6vw,64px); margin:0 0 28px; max-width:760px; line-height:1.1;">Imagery that makes people <span style="font-style:italic; color:var(--c-gold);">stop scrolling</span></h1>
+      <p style="font-size:18px; line-height:1.6; color:color-mix(in srgb, var(--c-text) 78%, transparent); max-width:600px; margin:0 0 36px;">Product, menu, and brand photography built for your website, ads, and social content.</p>
+      <div style="display:flex; gap:18px;">
+        <a data-btn="" href="contact.html" style="background:var(--c-red); color:#f5f1ea; padding:16px 32px; border-radius:2px; font-size:14px; font-weight:600; letter-spacing:0.04em; text-decoration:none; border:1px solid var(--c-gold);">Get in Touch</a>
+        <a data-btn="" data-btn-outline="" href="work.html" style="border:1px solid color-mix(in srgb, var(--c-text) 25%, transparent); color:var(--c-text); padding:16px 32px; border-radius:2px; font-size:14px; font-weight:600; letter-spacing:0.04em; text-decoration:none;">See Our Work</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S INCLUDED -->
+  <section style="padding:40px clamp(20px,5vw,64px) 140px; max-width:1280px; margin:0 auto;">
+    <div data-reveal style="text-align:center; margin-bottom:56px; opacity:0; transform:translateY(24px);">
+      <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:16px;">WHAT'S INCLUDED</div>
+      <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(26px,4.5vw,44px); margin:0;">Shot For Every Channel</h2>
+    </div>
+    <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:28px; opacity:0; transform:translateY(24px);">
+      <sc-for list="{{ focusAreas }}" as="f" hint-placeholder-count="3">
+        <div style="border:1px solid color-mix(in srgb, var(--c-text) 10%, transparent); border-radius:4px; padding:36px;">
+          <h3 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:22px; margin:0 0 12px;">{{ f.title }}</h3>
+          <p style="font-size:14px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0;">{{ f.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- OUR WORK -->
+  <section style="padding:0 clamp(20px,5vw,64px) 100px; max-width:1280px; margin:0 auto;">
+    <div data-reveal style="text-align:center; margin-bottom:40px; opacity:0; transform:translateY(24px);">
+      <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:16px;">RECENT WORK</div>
+      <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(26px,4.5vw,40px); margin:0;">Photography for real clients</h2>
+    </div>
+    <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:16px; opacity:0; transform:translateY(24px);">
+      <img src="assets/work/photo-1.jpg" alt="Plated biryani dish photographed for a restaurant client" style="width:100%; aspect-ratio:4/3; object-fit:cover; object-position:center; border-radius:4px; display:block;">
+      <img src="assets/work/photo-2.jpg" alt="Buffet spread photographed for a restaurant client" style="width:100%; aspect-ratio:4/3; object-fit:cover; object-position:center; border-radius:4px; display:block;">
+      <img src="assets/work/photo-6.jpg" alt="Sashimi platter photographed for a Japanese restaurant client" style="width:100%; aspect-ratio:4/3; object-fit:cover; object-position:center; border-radius:4px; display:block;">
+      <img src="assets/work/photo-7.jpg" alt="Fine dining plated dish photographed for a restaurant client" style="width:100%; aspect-ratio:4/3; object-fit:cover; object-position:center; border-radius:4px; display:block;">
+    </div>
+  </section>
+  <section style="padding:0 clamp(20px,5vw,64px) 140px; max-width:900px; margin:0 auto;">
+    <div data-reveal style="text-align:center; margin-bottom:48px; opacity:0; transform:translateY(24px);">
+      <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:16px;">INVESTMENT</div>
+      <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(26px,4.5vw,44px); margin:0;">Photography</h2>
+    </div>
+    <div data-reveal style="border:1px solid color-mix(in srgb, var(--c-gold) 30%, transparent); border-radius:6px; padding:48px; background:linear-gradient(160deg, color-mix(in srgb, var(--c-gold) 8%, transparent), transparent 60%); opacity:0; transform:translateY(24px);">
+      <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:8px;">
+        <span style="font-family:'Instrument Serif',serif; font-size:clamp(34px,5vw,52px); color:var(--c-gold);">From $800</span>
+        <span style="font-size:15px; color:color-mix(in srgb, var(--c-text) 72%, transparent);">per shoot</span>
+      </div>
+      <p style="font-size:13px; color:color-mix(in srgb, var(--c-text) 66%, transparent); margin:0 0 32px;">Scoped to shot list and location during consultation.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:14px 32px; margin-bottom:36px;">
+        <sc-for list="{{ pricingIncludes }}" as="item" hint-placeholder-count="6">
+          <div style="display:flex; align-items:center; gap:10px; font-size:14.5px; color:color-mix(in srgb, var(--c-text) 85%, transparent);">
+            <span style="width:6px; height:6px; border-radius:2px; background:var(--c-gold); flex-shrink:0;"></span>{{ item }}
+          </div>
+        </sc-for>
+      </div>
+      <a data-btn="" href="contact.html" style="display:inline-block; background:var(--c-red); color:#f5f1ea; padding:16px 32px; border-radius:2px; font-size:14px; font-weight:600; letter-spacing:0.04em; text-decoration:none; border:1px solid var(--c-gold);">Get Started</a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section data-reveal style="padding:100px clamp(20px,5vw,64px); background:linear-gradient(160deg, color-mix(in srgb, var(--c-gold) 8%, transparent), transparent 60%); text-align:center; opacity:0; transform:translateY(24px);">
+    <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(26px,4.5vw,44px); margin:0 0 20px;">Ready for imagery that converts?</h2>
+    <p style="font-size:16px; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0 0 40px;">Book a free consultation.</p>
+    <a data-btn="" href="contact.html" style="background:var(--c-gold); color:var(--c-bg); padding:18px 40px; border-radius:2px; font-size:14px; font-weight:600; letter-spacing:0.04em; text-decoration:none;">Get in Touch</a>
+  </section>
+
+  <footer style="padding:clamp(20px,5vw,64px); border-top:1px solid color-mix(in srgb, var(--c-text) 8%, transparent); display:flex; justify-content:space-between; flex-wrap:wrap; gap:40px;">
+    <div style="max-width:320px;">
+      <img data-brand-logo src="assets/logo-white-gold-final.png" alt="Archangel Digital Studios" style="height:84px; width:auto; margin-bottom:20px;">
+      <p style="font-size:16px; color:color-mix(in srgb, var(--c-text) 78%, transparent); line-height:1.6;">A boutique digital marketing studio, delivering over 1000% average ROI.</p>
+    </div>
+    <div style="display:flex; gap:clamp(28px,6vw,80px);">
+      <div>
+        <div style="font-size:12px; letter-spacing:0.1em; color:color-mix(in srgb, var(--c-text) 62%, transparent); margin-bottom:16px;">SITE</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px;">
+          <a href="index.html" style="color:var(--c-text); text-decoration:none;">Home</a>
+          <a href="about.html" style="color:var(--c-text); text-decoration:none;">About Us</a>
+          <a href="services.html" style="color:var(--c-text); text-decoration:none;">Our Services</a>
+          <a href="work.html" style="color:var(--c-text); text-decoration:none;">Case Studies</a>
+          <a href="contact.html" style="color:var(--c-text); text-decoration:none;">Contact Us</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px; letter-spacing:0.1em; color:color-mix(in srgb, var(--c-text) 62%, transparent); margin-bottom:16px;">CONNECT</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; color:color-mix(in srgb, var(--c-text) 80%, transparent);">
+          <a href="mailto:accounts@archangeldigitalstudios.com" style="color:inherit; text-decoration:none;">accounts@archangeldigitalstudios.com</a>
+          <a href="https://wa.me/6590587338" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">WhatsApp Us &mdash; 9058 7338</a>
+          <span>Singapore | Malaysia | Indonesia | Australia</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <div style="text-align:center; padding:20px; font-size:12px; color:color-mix(in srgb, var(--c-text) 60%, transparent); border-top:1px solid color-mix(in srgb, var(--c-text) 6%, transparent);">Copyright &copy; 2026 Archangel Digital Studios. We are a certified Google &amp; Meta Partner agency.</div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      focusAreas: [
+        { title: "Product & Menu Shoots", desc: "Clean, appetising imagery that makes your offering irresistible." },
+        { title: "Brand & Lifestyle", desc: "On-brand shots of your space, team, and story for web and social." },
+        { title: "Event Coverage", desc: "Launches, openings, and campaigns captured for ongoing content." }
+      ],
+      pricingIncludes: [
+        "Pre-shoot planning call",
+        "On-location photoshoot",
+        "Professional editing",
+        "Web & social-ready formats",
+        "Usage rights included",
+        "Fast turnaround"
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

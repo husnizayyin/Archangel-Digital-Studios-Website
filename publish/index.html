@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="var(--c-bg)">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="var(--c-bg)"/>
+    <circle cx="600" cy="380" r="260" fill="none" stroke="var(--c-red)" stroke-width="2" opacity="0.35"/>
+    <text x="600" y="400" font-family="Georgia, serif" font-style="italic" font-size="120" fill="var(--c-red)" text-anchor="middle">A</text>
+  </svg>
+</template>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Archivo:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    @keyframes glow-pulse { 0%,100% { opacity: 0.55; } 50% { opacity: 0.9; } }
+    @keyframes drift { 0% { transform: translate(0,0); } 100% { transform: translate(-40px,-30px); } }
+    @keyframes wing-flap { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(0.5); } }
+    @keyframes wing-tilt { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-14deg); } }
+    @keyframes penguin-dance {
+      0%   { transform: rotate(0deg) translateY(0); }
+      15%  { transform: rotate(-16deg) translateY(-3px); }
+      30%  { transform: rotate(14deg) translateY(-6px); }
+      45%  { transform: rotate(-18deg) translateY(-2px); }
+      60%  { transform: rotate(16deg) translateY(-7px); }
+      75%  { transform: rotate(-10deg) translateY(-1px); }
+      90%  { transform: rotate(8deg) translateY(-4px); }
+      100% { transform: rotate(0deg) translateY(0); }
+    }
+    html { background: var(--c-bg); }
+    body { margin: 0; background: var(--c-bg); }
+    ::selection { background: var(--c-gold); color: var(--c-bg); }
+
+    @media (max-width: 860px) {
+      [data-nav-links] { display: none !important; position: absolute; top: 100%; left: 0; right: 0; background: var(--c-bg); border-bottom: 1px solid color-mix(in srgb, var(--c-text) 8%, transparent); flex-direction: column !important; align-items: flex-start !important; padding: 20px clamp(20px,5vw,64px) !important; gap: 18px !important; }
+      #nav-toggle:checked ~ [data-nav-links] { display: flex !important; }
+      [data-nav-links] { order: 4; }
+      [data-nav-cta] { order: 3; }
+      [data-burger] { display: flex !important; }
+    }
+    [data-burger] { display: none; }
+    [data-nav-dropdown] { position: relative; }
+    [data-nav-dropdown] > [data-dropdown-menu] { display:none; position:absolute; top:100%; left:0; margin-top:0; background:var(--c-bg-alt); border:1px solid color-mix(in srgb, var(--c-text) 12%, transparent); border-radius:8px; padding:14px 8px 8px 8px; min-width:230px; flex-direction:column; gap:2px; box-shadow:0 16px 40px rgba(0,0,0,0.5); z-index:50; }
+    [data-nav-dropdown]:hover > [data-dropdown-menu] { display:flex; }
+    [data-dropdown-menu] a:hover { background: color-mix(in srgb, var(--c-text) 7%, transparent); }
+    [data-submenu-panel] { display:none; position:absolute; left:100%; top:-8px; margin-left:0; padding-left:6px; background:transparent; border:none; box-shadow:none; z-index:60; }
+    [data-submenu-panel] > [data-submenu-inner] { background:var(--c-bg-alt); border:1px solid color-mix(in srgb, var(--c-text) 12%, transparent); border-radius:8px; padding:8px; min-width:230px; display:flex; flex-direction:column; gap:2px; box-shadow:0 16px 40px rgba(0,0,0,0.5); }
+    [data-nav-submenu]:hover > [data-submenu-panel] { display:flex; }
+    [data-submenu-panel] a:hover { background: color-mix(in srgb, var(--c-text) 7%, transparent); }
+    @media (max-width: 860px) {
+      [data-nav-dropdown] > [data-dropdown-menu] { position:static; display:flex !important; box-shadow:none; border:none; background:transparent; padding:2px 0 6px 16px; margin-top:6px; min-width:0; }
+      [data-submenu-panel] { position:static; display:flex !important; box-shadow:none; border:none; background:transparent; padding:2px 0 6px 16px; margin-left:0; margin-top:4px; min-width:0; }
+      [data-nav-submenu] [data-submenu-trigger] span { display:none; }
+    }
+    @media (max-width: 700px) { [data-services-grid] { grid-template-columns: 1fr !important; } }
+    @keyframes heroGlowPulse {
+      0%, 100% { opacity: 0.85; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+    }
+    [data-industry-card] { transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease, border-color 0.35s ease; }
+    [data-industry-card]:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -16px rgba(0,0,0,0.55); border-color: color-mix(in srgb, var(--c-gold) 55%, transparent) !important; }
+    [data-industry-icon] svg { transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1); }
+    [data-industry-card]:hover [data-industry-icon] svg { transform: scale(1.12) rotate(-2deg); }
+    [data-industry-icon] { transition: background 0.35s ease; }
+    [data-industry-card]:hover [data-industry-icon] { background-color: color-mix(in srgb, var(--c-gold) 5%, transparent); }
+    [data-case-link]:hover { color: var(--c-text) !important; }
+    [data-case-link]:hover [data-case-arrow] { transform: translateX(4px); }
+    [data-service-cell] { transition: background 0.3s ease; position: relative; }
+    [data-service-cell]:hover { background: var(--c-bg-alt); }
+    [data-service-cell]::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--c-gold); transform: scaleY(0); transform-origin: top; transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); }
+    [data-btn] { transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s ease, filter 0.25s ease, background 0.25s ease, border-color 0.25s ease, letter-spacing 0.25s ease; }
+    [data-btn]:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -12px rgba(0,0,0,0.5); filter: brightness(1.08); }
+    [data-btn]:active { transform: translateY(0); box-shadow: none; }
+    [data-btn-outline]:hover { border-color: var(--c-gold) !important; background: color-mix(in srgb, var(--c-gold) 12%, transparent) !important; }
+    [data-service-cell]:hover::before { transform: scaleY(1); }
+    [data-flock] { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; }
+    [data-creature] { position:absolute; top:-60px; will-change:transform; animation-name:snowFall; animation-timing-function:linear; animation-iteration-count:infinite; }
+    [data-creature] svg { display:block; animation-name:snowSway; animation-timing-function:ease-in-out; animation-iteration-count:infinite; animation-direction:alternate; }
+    @keyframes snowFall {
+      0%   { transform: translate3d(0, 0, 0); opacity: 0; }
+      8%   { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { transform: translate3d(0, 860px, 0); opacity: 0; }
+    }
+    @keyframes snowSway {
+      from { transform: translateX(-16px) rotate(-35deg); }
+      to   { transform: translateX(16px) rotate(35deg); }
+    }
+    [data-creature] svg[data-snow] { display: block; }
+    [data-creature] svg[data-bloom] { display: none; }
+    :root[data-theme="light"] [data-creature] svg[data-snow] { display: none; }
+    :root[data-theme="light"] [data-creature] svg[data-bloom] { display: block; }
+    @media (prefers-reduced-motion: reduce) { [data-creature], [data-creature] svg { animation: none; } [data-flock] { display: none; } }
+  </style>
+  <script src="./reveal.js"></script>
+  <link rel="stylesheet" href="./theme.css">
+  <script src="./theme-toggle.js"></script>
+</helmet>
+
+<div style="background:var(--c-bg); color:var(--c-text); font-family:'Archivo',sans-serif; min-height:100vh; overflow-x:hidden;" data-screen-label="Home">
+
+  <!-- NAV -->
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,64px); background:color-mix(in srgb, var(--c-bg) 82%, transparent); backdrop-filter:blur(12px); border-bottom:1px solid color-mix(in srgb, var(--c-text) 8%, transparent); flex-wrap:wrap; row-gap:12px;">
+    <a href="index.html" style="font-family:'Instrument Serif',serif; font-size:26px; letter-spacing:0.04em; color:var(--c-text); text-decoration:none; display:flex; align-items:center; gap:10px;">
+      <img data-brand-logo="" src="assets/logo-white-gold-final.png" alt="Archangel Digital Studios" style="height:38px; width:auto; display:block;">
+    </a>
+    <input type="checkbox" id="nav-toggle" style="display:none;">
+    <label for="nav-toggle" data-burger="" style="align-items:center; justify-content:center; width:34px; height:34px; cursor:pointer; order:2;">
+      <svg width="22" height="16" viewBox="0 0 22 16" fill="none" stroke="var(--c-text)" stroke-width="2" stroke-linecap="round"><line x1="0" y1="1" x2="22" y2="1"></line><line x1="0" y1="8" x2="22" y2="8"></line><line x1="0" y1="15" x2="22" y2="15"></line></svg>
+    </label>
+    <div data-nav-links="" style="display:flex; align-items:center; gap:clamp(14px,3vw,40px); flex-wrap:wrap;">
+      <a href="index.html" style="color:var(--c-text); text-decoration:none; font-size:14px; letter-spacing:0.03em; border-bottom:1px solid var(--c-gold); padding-bottom:4px;">Home</a>
+      <a href="about.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">About Us</a>
+      <div data-nav-dropdown="" style="display:flex; align-items:center;">
+      <a href="services.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Our Services <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent); margin-left:2px;">▾</span></a>
+      <div data-dropdown-menu="">
+      <a href="services.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">All Services</a>
+      <div data-nav-submenu style="position:relative;">
+      <a data-submenu-trigger style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:default;">Digital Marketing Services <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent);">&#9656;</span></a>
+      <div data-submenu-panel>
+      <div data-submenu-inner>
+      <a href="marketing-consultation.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Marketing Consultation</a>
+      <a href="lead-generation.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Lead Generation</a>
+      <a href="seo.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">SEO</a>
+      <a href="social-media-marketing.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Social Media Marketing</a>
+      <a href="loyalty-marketing.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Loyalty Marketing</a>
+      </div>
+      </div>
+      </div>
+      <div data-nav-submenu style="position:relative;">
+      <a data-submenu-trigger style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:default;">Design Services <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent);">&#9656;</span></a>
+      <div data-submenu-panel>
+      <div data-submenu-inner>
+      <a href="website-design.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Website Design</a>
+      <a href="mobile-app-design.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Mobile App Design</a>
+      <a href="Design-services.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Graphic Design</a>
+      </div>
+      </div>
+      </div>
+      <div data-nav-submenu style="position:relative;">
+      <a data-submenu-trigger style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:default;">Creative Services <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent);">&#9656;</span></a>
+      <div data-submenu-panel>
+      <div data-submenu-inner>
+      <a href="photography.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Photography</a>
+      <a href="videography.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Videography</a>
+      </div>
+      </div>
+      </div>
+    </div>
+    </div>
+      <div data-nav-dropdown="" style="display:flex; align-items:center;">
+      <a href="#" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Industries <span style="font-size:10px; color:color-mix(in srgb, var(--c-text) 66%, transparent); margin-left:2px;">▾</span></a>
+      <div data-dropdown-menu="">
+      <a href="restaurants.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Restaurants</a>
+      <a href="education.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Education</a>
+      <a href="health-medical.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Health &amp; Medical</a>
+      <a href="interior-design.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:13.5px; padding:9px 12px; border-radius:5px; display:block;">Interior Design</a>
+    </div>
+    </div>
+      <a href="work.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Case Studies</a>
+      <a href="contact.html" style="color:color-mix(in srgb, var(--c-text) 75%, transparent); text-decoration:none; font-size:14px; letter-spacing:0.03em;">Contact Us</a>
+    </div>
+    <a data-btn="" href="contact.html" style="background:var(--c-red); color:#f5f1ea; padding:12px 24px; border-radius:2px; font-size:13px; font-weight:600; letter-spacing:0.04em; text-decoration:none; border:1px solid var(--c-gold);" data-nav-cta="">Get in Touch</a>
+  <button data-theme-toggle="" title="Toggle light / dark" aria-label="Toggle light / dark theme" style="margin-left:4px;"><svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path></svg><svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></button>
+  </nav>
+
+  <!-- HERO -->
+  <section data-spark-section="happy" style="position:relative; padding:140px clamp(20px,5vw,64px) 120px; display:flex; flex-direction:column; align-items:center; text-align:center; overflow:hidden;">
+    <div style="position:absolute; top:-200px; left:50%; transform:translateX(-50%); width:900px; height:900px; border-radius:50%; animation:heroGlowPulse 6s ease-in-out infinite; background:radial-gradient(circle, color-mix(in srgb, var(--c-red) 18%, transparent) 0%, color-mix(in srgb, var(--c-red) 0%, transparent) 70%); animation:glow-pulse 6s ease-in-out infinite;"></div>
+
+    <div style="position:absolute; inset:0; background-image:linear-gradient(color-mix(in srgb, var(--c-text) 5%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--c-text) 5%, transparent) 1px, transparent 1px); background-size:clamp(20px,5vw,64px) clamp(20px,5vw,64px); mask-image:radial-gradient(ellipse 70% 60% at 50% 20%, black 30%, transparent 75%);"></div>
+
+    <div data-flock="" aria-hidden="true">
+      <sc-for list="{{ flock }}" as="cr" hint-placeholder-count="11">
+        <div data-creature="" style="{{ cr.style }}">
+          <svg data-snow="" width="{{ cr.size }}" height="{{ cr.size }}" viewBox="0 0 40 40" fill="none" stroke="color-mix(in srgb, var(--c-text) 40%, transparent)" stroke-width="1.6" stroke-linecap="round" style="{{ cr.swayStyle }}">
+            <path d="M20 3v34M5.3 11.5l29.4 17M34.7 11.5l-29.4 17"></path>
+            <path d="M20 8.5l-3.4-3.4M20 8.5l3.4-3.4M20 31.5l-3.4 3.4M20 31.5l3.4 3.4"></path>
+            <path d="M10.5 14l-4.6-.6M10.5 14l-1.3-4.5M29.5 26l4.6.6M29.5 26l1.3 4.5"></path>
+            <path d="M29.5 14l4.6-.6M29.5 14l1.3-4.5M10.5 26l-4.6.6M10.5 26l-1.3 4.5"></path>
+          </svg>
+          <svg data-bloom="" width="{{ cr.size }}" height="{{ cr.size }}" viewBox="0 0 40 40" style="{{ cr.swayStyle }}">
+            <g fill="color-mix(in srgb, var(--c-red) 42%, transparent)">
+              <circle cx="20" cy="10.5" r="7.4"></circle>
+              <circle cx="29.04" cy="17.06" r="7.4"></circle>
+              <circle cx="25.58" cy="27.69" r="7.4"></circle>
+              <circle cx="14.42" cy="27.69" r="7.4"></circle>
+              <circle cx="10.96" cy="17.06" r="7.4"></circle>
+            </g>
+            <circle cx="20" cy="20" r="4.2" fill="color-mix(in srgb, var(--c-gold) 75%, transparent)"></circle>
+          </svg>
+        </div>
+      </sc-for>
+    </div>
+
+    <div data-reveal="" style="position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; max-width:920px; opacity:0; transform:translateY(24px);">
+      <img data-brand-logo="" src="assets/logo-white-gold-final.png" alt="Archangel Digital Studios" style="height:84px; width:auto; margin-bottom:16px;">
+      <div style="display:flex; align-items:center; gap:10px; padding:8px 18px; border:1px solid color-mix(in srgb, var(--c-text) 40%, transparent); border-radius:100px; font-size:12px; letter-spacing:0.18em; color:var(--c-text); margin-bottom:32px;">
+        DIGITAL MARKETING SPECIALISTS
+      </div>
+      <h1 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(40px,8vw,88px); line-height:1.03; margin:0 0 28px; letter-spacing:-0.01em;">
+        Elevate Your <span style="font-style:italic; color:var(--c-gold);">Business</span>
+      </h1>
+      <p style="font-size:19px; line-height:1.6; color:color-mix(in srgb, var(--c-text) 78%, transparent); max-width:620px; margin:0 0 44px;">We hone a proven formula for business growth.<br><i>Restaurant, education, health &amp; medical, and interior design specialists.
+      </i></p>
+      <div style="display:flex; gap:18px;">
+        <a data-btn="" href="#growth-quiz" style="background:var(--c-red); color:#f5f1ea; padding:16px 32px; border-radius:2px; font-size:14px; font-weight:600; letter-spacing:0.04em; text-decoration:none; border:1px solid var(--c-gold);">Learn More</a>
+        <a data-btn="" data-btn-outline="" href="contact.html" style="background:transparent; color:var(--c-text); padding:16px 32px; border-radius:2px; font-size:14px; font-weight:600; letter-spacing:0.04em; text-decoration:none; border:1px solid rgba(255,255,255,0.5);">Get In Touch</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SPARK: scroll-companion penguin + WhatsApp button, shared across every page -->
+  <dc-import name="ScrollCompanion" hint-size="70px,90px"></dc-import>
+
+  <!-- GROWTH QUIZ -->
+  <section id="growth-quiz" data-reveal="" style="padding:0 clamp(20px,5vw,64px) 120px; opacity:0; transform:translateY(24px);">
+    <div style="max-width:720px; margin:0 auto; background:var(--c-bg-alt); border:1px solid color-mix(in srgb, var(--c-text) 10%, transparent); border-radius:12px; padding:clamp(28px,5vw,56px);">
+      <div style="text-align:center; margin-bottom:36px;">
+        <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:14px;">FREE GROWTH DIAGNOSIS</div>
+        <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(24px,4vw,34px); margin:0;">Let us show you how we can grow your business</h2>
+      </div>
+
+      <div style="display:flex; gap:6px; margin-bottom:36px;">
+        <div style="height:3px; flex:1; border-radius:2px; background:{{ bar1Color }};"></div>
+        <div style="height:3px; flex:1; border-radius:2px; background:{{ bar2Color }};"></div>
+        <div style="height:3px; flex:1; border-radius:2px; background:{{ bar3Color }};"></div>
+        <div style="height:3px; flex:1; border-radius:2px; background:{{ bar4Color }};"></div>
+      </div>
+
+      <div style="text-align:center;">
+
+      <sc-if value="{{ isStep0 }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="text-align:left; margin-bottom:30px;">
+          <div style="font-size:11px; letter-spacing:0.2em; color:var(--c-gold); margin-bottom:8px;">INDUSTRY</div>
+          <h3 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:26px; margin:0 0 18px;">What kind of business do you run?</h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+            <button data-key="businessType" data-val="restaurant" data-next="1" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ bRestaurant }}; background:color-mix(in srgb, {{ bRestaurant }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Restaurant &amp; Food</button>
+            <button data-key="businessType" data-val="education" data-next="1" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ bEducation }}; background:color-mix(in srgb, {{ bEducation }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Education</button>
+            <button data-key="businessType" data-val="health" data-next="1" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ bHealth }}; background:color-mix(in srgb, {{ bHealth }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Health &amp; Medical</button>
+            <button data-key="businessType" data-val="interior" data-next="1" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ bInterior }}; background:color-mix(in srgb, {{ bInterior }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Interior Design</button>
+            <button data-key="businessType" data-val="other" data-next="1" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ bOther }}; background:color-mix(in srgb, {{ bOther }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Other</button>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isQuestions }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="border-bottom:1px solid color-mix(in srgb, var(--c-text) 12%, transparent); padding-bottom:30px; margin-bottom:26px;">
+          <div style="font-family:'Instrument Serif',serif; font-size:clamp(34px,6vw,52px); color:var(--c-gold); line-height:1; margin-bottom:16px;">{{ affirmNumber }}</div>
+          <p style="font-family:'Instrument Serif',serif; font-size:clamp(21px,3.2vw,28px); line-height:1.4; margin:0 auto; max-width:26em; color:var(--c-text);">{{ affirmText }}</p>
+        </div>
+        <p style="font-size:15px; line-height:1.6; margin:0 0 10px; color:color-mix(in srgb, var(--c-text) 80%, transparent);">Kindly answer the following questions so we can show you how we can grow your business.</p>
+        <div style="text-align:left; border-top:1px solid color-mix(in srgb, var(--c-text) 12%, transparent);">
+          <button data-section="revenue" onClick="{{ toggleSection }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; background:none; border:none; padding:22px 2px; cursor:pointer; text-align:left; font-family:'Archivo',sans-serif;">
+            <div>
+              <div style="display:flex; align-items:baseline; gap:12px;"><div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:14px; letter-spacing:0.06em; font-variant-numeric:tabular-nums; color:var(--c-gold); line-height:1;">01</div><div style="font-size:14px; letter-spacing:0.16em; color:var(--c-gold); font-weight:600;">REVENUE</div></div>
+              <div style="font-size:15px; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin-top:8px; padding-left:31px;">{{ aRevenue }}</div>
+            </div>
+            <div style="font-family:'Instrument Serif',serif; font-size:26px; color:var(--c-gold); line-height:1;">{{ iRevenue }}</div>
+          </button>
+          <sc-if value="{{ openRevenue }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 2px 26px;">
+              <h3 style="font-family:'Archivo',sans-serif; font-weight:500; font-size:20px; line-height:1.4; margin:0 0 18px;">Are you satisfied with the revenue you currently earn?</h3>
+              <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+              <button data-key="revenue" data-val="thriving" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ rThriving }}; background:color-mix(in srgb, {{ rThriving }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">We're thriving, just want to scale further</button>
+              <button data-key="revenue" data-val="ok" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ rOk }}; background:color-mix(in srgb, {{ rOk }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">I'm doing okay, but I want to earn more</button>
+              <button data-key="revenue" data-val="struggling" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ rStruggling }}; background:color-mix(in srgb, {{ rStruggling }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">I can't survive if this continues</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="text-align:left; border-top:1px solid color-mix(in srgb, var(--c-text) 12%, transparent);">
+          <button data-section="website" onClick="{{ toggleSection }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; background:none; border:none; padding:22px 2px; cursor:pointer; text-align:left; font-family:'Archivo',sans-serif;">
+            <div>
+              <div style="display:flex; align-items:baseline; gap:12px;"><div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:14px; letter-spacing:0.06em; font-variant-numeric:tabular-nums; color:var(--c-gold); line-height:1;">02</div><div style="font-size:14px; letter-spacing:0.16em; color:var(--c-gold); font-weight:600;">WEBSITE</div></div>
+              <div style="font-size:15px; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin-top:8px; padding-left:31px;">{{ aWebsite }}</div>
+            </div>
+            <div style="font-family:'Instrument Serif',serif; font-size:26px; color:var(--c-gold); line-height:1;">{{ iWebsite }}</div>
+          </button>
+          <sc-if value="{{ openWebsite }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 2px 26px;">
+              <h3 style="font-family:'Archivo',sans-serif; font-weight:500; font-size:20px; line-height:1.4; margin:0 0 18px;">Is your website effective? Well designed, and generating enquiries?</h3>
+              <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+              <button data-key="website" data-val="good" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ wGood }}; background:color-mix(in srgb, {{ wGood }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Yes, it's well designed and brings in enquiries</button>
+              <button data-key="website" data-val="okay" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ wOkay }}; background:color-mix(in srgb, {{ wOkay }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">It's okay, but could do better</button>
+              <button data-key="website" data-val="none" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ wNone }}; background:color-mix(in srgb, {{ wNone }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">We don't have a website</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="text-align:left; border-top:1px solid color-mix(in srgb, var(--c-text) 12%, transparent);">
+          <button data-section="leads" onClick="{{ toggleSection }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; background:none; border:none; padding:22px 2px; cursor:pointer; text-align:left; font-family:'Archivo',sans-serif;">
+            <div>
+              <div style="display:flex; align-items:baseline; gap:12px;"><div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:14px; letter-spacing:0.06em; font-variant-numeric:tabular-nums; color:var(--c-gold); line-height:1;">03</div><div style="font-size:14px; letter-spacing:0.16em; color:var(--c-gold); font-weight:600;">ADVERTISING</div></div>
+              <div style="font-size:15px; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin-top:8px; padding-left:31px;">{{ aLeads }}</div>
+            </div>
+            <div style="font-family:'Instrument Serif',serif; font-size:26px; color:var(--c-gold); line-height:1;">{{ iLeads }}</div>
+          </button>
+          <sc-if value="{{ openLeads }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 2px 26px;">
+              <h3 style="font-family:'Archivo',sans-serif; font-weight:500; font-size:20px; line-height:1.4; margin:0 0 18px;">Do you advertise on Google, Meta or TikTok? If so, how many leads does it bring in?</h3>
+              <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+              <button data-key="leads" data-val="day" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ lDay }}; background:color-mix(in srgb, {{ lDay }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Yes, 1 to 2 or more leads a day</button>
+              <button data-key="leads" data-val="week" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ lWeek }}; background:color-mix(in srgb, {{ lWeek }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Yes, about 1 to 2 leads a week</button>
+              <button data-key="leads" data-val="month" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ lMonth }}; background:color-mix(in srgb, {{ lMonth }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Yes, about 1 to 2 leads a month</button>
+              <button data-key="leads" data-val="none" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ lNone }}; background:color-mix(in srgb, {{ lNone }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">No, we don't advertise</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="text-align:left; border-top:1px solid color-mix(in srgb, var(--c-text) 12%, transparent);">
+          <button data-section="seo" onClick="{{ toggleSection }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; background:none; border:none; padding:22px 2px; cursor:pointer; text-align:left; font-family:'Archivo',sans-serif;">
+            <div>
+              <div style="display:flex; align-items:baseline; gap:12px;"><div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:14px; letter-spacing:0.06em; font-variant-numeric:tabular-nums; color:var(--c-gold); line-height:1;">04</div><div style="font-size:14px; letter-spacing:0.16em; color:var(--c-gold); font-weight:600;">SEO</div></div>
+              <div style="font-size:15px; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin-top:8px; padding-left:31px;">{{ aSeo }}</div>
+            </div>
+            <div style="font-family:'Instrument Serif',serif; font-size:26px; color:var(--c-gold); line-height:1;">{{ iSeo }}</div>
+          </button>
+          <sc-if value="{{ openSeo }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 2px 26px;">
+              <h3 style="font-family:'Archivo',sans-serif; font-weight:500; font-size:20px; line-height:1.4; margin:0 0 18px;">When customers search for what you offer, do you come up on the first page of Google?</h3>
+              <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+              <button data-key="seo" data-val="top" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ qTop }}; background:color-mix(in srgb, {{ qTop }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Yes, we rank on the first page for our main services</button>
+              <button data-key="seo" data-val="some" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ qSome }}; background:color-mix(in srgb, {{ qSome }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Sometimes, but not for the searches that matter most</button>
+              <button data-key="seo" data-val="none" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ qNone }}; background:color-mix(in srgb, {{ qNone }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">No, we don't show up</button>
+              <button data-key="seo" data-val="unsure" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ qUnsure }}; background:color-mix(in srgb, {{ qUnsure }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">I'm not sure</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="text-align:left; border-top:1px solid color-mix(in srgb, var(--c-text) 12%, transparent);">
+          <button data-section="social" onClick="{{ toggleSection }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; background:none; border:none; padding:22px 2px; cursor:pointer; text-align:left; font-family:'Archivo',sans-serif;">
+            <div>
+              <div style="display:flex; align-items:baseline; gap:12px;"><div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:14px; letter-spacing:0.06em; font-variant-numeric:tabular-nums; color:var(--c-gold); line-height:1;">05</div><div style="font-size:14px; letter-spacing:0.16em; color:var(--c-gold); font-weight:600;">SOCIAL MEDIA</div></div>
+              <div style="font-size:15px; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin-top:8px; padding-left:31px;">{{ aSocial }}</div>
+            </div>
+            <div style="font-family:'Instrument Serif',serif; font-size:26px; color:var(--c-gold); line-height:1;">{{ iSocial }}</div>
+          </button>
+          <sc-if value="{{ openSocial }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 2px 26px;">
+              <h3 style="font-family:'Archivo',sans-serif; font-weight:500; font-size:20px; line-height:1.4; margin:0 0 18px;">Are you posting consistently and growing your audience?</h3>
+              <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+              <button data-key="social" data-val="strong" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ sStrong }}; background:color-mix(in srgb, {{ sStrong }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Yes, we post consistently and the audience is growing</button>
+              <button data-key="social" data-val="patchy" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ sPatchy }}; background:color-mix(in srgb, {{ sPatchy }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">We post, but not consistently</button>
+              <button data-key="social" data-val="none" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ sNone }}; background:color-mix(in srgb, {{ sNone }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">We're barely on social media</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="text-align:left; border-top:1px solid color-mix(in srgb, var(--c-text) 12%, transparent);">
+          <button data-section="visuals" onClick="{{ toggleSection }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; background:none; border:none; padding:22px 2px; cursor:pointer; text-align:left; font-family:'Archivo',sans-serif;">
+            <div>
+              <div style="display:flex; align-items:baseline; gap:12px;"><div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:14px; letter-spacing:0.06em; font-variant-numeric:tabular-nums; color:var(--c-gold); line-height:1;">06</div><div style="font-size:14px; letter-spacing:0.16em; color:var(--c-gold); font-weight:600;">VISUAL ASSETS</div></div>
+              <div style="font-size:15px; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin-top:8px; padding-left:31px;">{{ aVisuals }}</div>
+            </div>
+            <div style="font-family:'Instrument Serif',serif; font-size:26px; color:var(--c-gold); line-height:1;">{{ iVisuals }}</div>
+          </button>
+          <sc-if value="{{ openVisuals }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 2px 26px;">
+              <h3 style="font-family:'Archivo',sans-serif; font-weight:500; font-size:20px; line-height:1.4; margin:0 0 18px;">Do you have fresh photography and video of your business?</h3>
+              <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+              <button data-key="visuals" data-val="fresh" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ vFresh }}; background:color-mix(in srgb, {{ vFresh }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">Yes, shot recently and we use it everywhere</button>
+              <button data-key="visuals" data-val="dated" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ vDated }}; background:color-mix(in srgb, {{ vDated }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">We have some, but it's outdated</button>
+              <button data-key="visuals" data-val="none" onClick="{{ pick }}" style="text-align:left; padding:16px 18px; border-radius:8px; border:1px solid {{ vNone }}; background:color-mix(in srgb, {{ vNone }} 12%, var(--c-bg)); color:var(--c-text); font-family:'Archivo',sans-serif; font-size:16px; cursor:pointer;">We didn't think photos or videos of our business were useful</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="border-top:1px solid color-mix(in srgb, var(--c-text) 12%, transparent); padding-top:30px;">
+          <button data-btn="" onClick="{{ seeDiagnosis }}" style="background:var(--c-gold); color:var(--c-bg); padding:16px 34px; border-radius:2px; font-size:14px; font-weight:600; letter-spacing:0.04em; border:none; cursor:pointer; font-family:'Archivo',sans-serif; opacity:{{ ctaOpacity }};">See My Diagnosis →</button>
+          <p style="font-size:13px; color:color-mix(in srgb, var(--c-text) 66%, transparent); margin:14px 0 0;">{{ ctaHint }}</p>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isDiagnosis }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h3 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:24px; margin:0 0 6px;">Here is what we see</h3>
+          <p style="font-size:14.5px; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0 0 10px;">Based on your answers.</p>
+          <div style="display:flex; flex-direction:column; gap:12px; margin-top:20px;">
+            <sc-for list="{{ findings }}" as="f" hint-placeholder-count="5">
+              <div style="text-align:left; padding:22px 24px; border:1px solid color-mix(in srgb, var(--c-text) 12%, transparent); border-radius:10px; background:var(--c-bg);">
+                <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:14px;">
+                  <div style="display:flex; align-items:baseline; gap:12px;">
+                    <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.06em; font-variant-numeric:tabular-nums; color:var(--c-gold);">{{ f.num }}</div>
+                    <div style="font-size:11px; letter-spacing:0.18em; color:var(--c-gold); font-weight:600;">{{ f.label }}</div>
+                  </div>
+                  <div style="font-family:'Archivo',sans-serif; font-size:13px; font-weight:600; letter-spacing:0.02em; color:var(--c-gold); white-space:nowrap;">{{ f.price }}</div>
+                </div>
+                <div style="padding:12px 16px; border-radius:8px; background:color-mix(in srgb, var(--c-text) 6%, transparent); margin-bottom:16px;">
+                  <div style="font-size:10.5px; letter-spacing:0.2em; color:color-mix(in srgb, var(--c-text) 78%, transparent); margin-bottom:5px;">YOUR ANSWER</div>
+                  <div style="font-size:15.5px; color:var(--c-text);">{{ f.answer }}</div>
+                </div>
+                <div style="font-family:'Instrument Serif',serif; font-size:30px; color:var(--c-gold); line-height:1; margin-bottom:10px;">{{ f.number }}</div>
+                <p style="font-size:16px; line-height:1.6; margin:0; color:var(--c-text);">{{ f.text }}</p>
+              </div>
+            </sc-for>
+          </div>
+          <button data-btn="" onClick="{{ advanceFromReveal }}" style="background:var(--c-gold); color:var(--c-bg); padding:15px 32px; border-radius:2px; font-size:14px; font-weight:600; border:none; cursor:pointer; font-family:'Archivo',sans-serif; margin-top:28px;">Build My Plan →</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isPlanStep }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h3 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:24px; margin:0 0 8px;">Build your plan</h3>
+          <p style="font-size:14.5px; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0 0 28px;">Pick the services you feel will benefit your business. We've pre-selected our recommendations based on your answers.</p>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:32px; text-align:left;">
+            <sc-for list="{{ allServices }}" as="svc" hint-placeholder-count="7">
+              <button data-svc="{{ svc.key }}" onClick="{{ toggleSvc }}" style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 18px; border-radius:8px; border:1px solid {{ svc.borderColor }}; background:{{ svc.bg }}; text-align:left; cursor:pointer; font-family:'Archivo',sans-serif;">
+                <div style="display:flex; align-items:center; gap:14px;">
+                  <div style="width:20px; height:20px; border-radius:5px; border:1.5px solid {{ svc.checkBorder }}; background:{{ svc.checkBg }}; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:12px; color:var(--c-bg);">{{ svc.checkMark }}</div>
+                  <div>
+                    <div style="font-size:14.5px; color:var(--c-text);">{{ svc.title }}</div>
+                  </div>
+                </div>
+                <div style="font-size:13px; color:color-mix(in srgb, var(--c-text) 68%, transparent); white-space:nowrap;">{{ svc.price }}</div>
+              </button>
+            </sc-for>
+          </div>
+          <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap; justify-content:center;">
+            <a data-btn="" href="contact.html" style="background:var(--c-gold); color:var(--c-bg); padding:16px 32px; border-radius:2px; font-size:14px; font-weight:600; letter-spacing:0.04em; text-decoration:none;">Get My Free Consultation</a>
+            <button onClick="{{ restartQuiz }}" style="background:none; border:none; color:color-mix(in srgb, var(--c-text) 68%, transparent); font-size:13px; cursor:pointer; text-decoration:underline; font-family:'Archivo',sans-serif;">Retake the quiz</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ goBack }}" style="margin-top: 28px; background: none; border: none; color:color-mix(in srgb, var(--c-text) 66%, transparent); font-size: 13px; cursor: pointer; font-family: 'Archivo',sans-serif; position: relative">← Back</button>
+      </sc-if>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section data-spark-section="excited" ref="{{ statsRef }}" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(190px,1fr)); background:var(--c-bg-alt2); border-top:1px solid color-mix(in srgb, var(--c-gold) 40%, transparent); border-bottom:1px solid color-mix(in srgb, var(--c-gold) 40%, transparent);">
+    <sc-for list="{{ stats }}" as="stat" hint-placeholder-count="4">
+      <div style="padding:44px 32px; text-align:center; border-right:1px solid color-mix(in srgb, var(--c-text) 8%, transparent);">
+        <div style="font-family:'Instrument Serif',serif; font-size:clamp(26px,4.5vw,44px); color:var(--c-gold);">{{ stat.value }}</div>
+        <div style="font-size:13px; letter-spacing:0.06em; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin-top:8px;">{{ stat.label }}</div>
+      </div>
+    </sc-for>
+  </section>
+
+  <!-- SERVICES PREVIEW -->
+  <section data-spark-section="thinking" style="padding:120px clamp(20px,5vw,64px) 140px; max-width:1280px; margin:0 auto;">
+    <div style="text-align:center; margin-bottom:clamp(20px,5vw,64px);">
+      <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:16px;">WHAT WE OFFER</div>
+      <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(28px,5vw,48px); margin:0;">Our Services</h2>
+    </div>
+    <div data-reveal="" data-services-grid="" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:color-mix(in srgb, var(--c-text) 8%, transparent); border:1px solid color-mix(in srgb, var(--c-text) 8%, transparent); opacity:0; transform:translateY(24px);">
+      <sc-for list="{{ services }}" as="svc" hint-placeholder-count="6">
+        <div data-service-cell="" style="background:var(--c-bg-alt); padding:40px 36px; display:flex; flex-direction:column; gap:16px;">
+          <div style="font-size:12px; color:color-mix(in srgb, var(--c-text) 62%, transparent); letter-spacing:0.08em;">{{ svc.num }}</div>
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:21px; line-height:1.25; letter-spacing:-0.015em; margin:0; color:var(--c-text);">{{ svc.title }}</h3>
+          <p style="font-size:16.5px; line-height:1.55; color:color-mix(in srgb, var(--c-text) 88%, transparent); margin:0; flex:1;">{{ svc.desc }}</p>
+          <a href="{{ svc.link }}" style="font-size:14px; font-weight:600; color:var(--c-gold); text-decoration:none; letter-spacing:0.03em;">Learn more →</a>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- INDUSTRIES -->
+  <section id="industries" data-spark-section="wink" style="padding:120px clamp(20px,5vw,64px); max-width:1280px; margin:0 auto;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:clamp(20px,5vw,64px); gap:40px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:16px;">SPECIALIST FOCUS</div>
+        <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(28px,5vw,48px); margin:0; max-width:560px; line-height:1.1;">A proven formula, built for your industry</h2>
+      </div>
+      <p style="font-size:16px; color:color-mix(in srgb, var(--c-text) 72%, transparent); max-width:380px; line-height:1.6; margin:0;">Real category experience, not generic playbooks.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:28px;">
+      <a href="restaurants.html" data-reveal="" data-industry-card="" style="display:block; text-decoration:none; color:inherit; border:1px solid color-mix(in srgb, var(--c-gold) 18%, transparent); border-radius:4px; overflow:hidden; background:linear-gradient(160deg, color-mix(in srgb, var(--c-gold) 8%, transparent), transparent 60%); opacity:0; transform:translateY(24px);">
+        <div data-industry-icon="" style="width:100%; height:150px; display:flex; align-items:center; justify-content:center; background:linear-gradient(160deg, color-mix(in srgb, var(--c-gold) 16%, transparent), color-mix(in srgb, var(--c-gold) 3%, transparent)); overflow:hidden;">
+          <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="var(--c-gold)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="30" cy="36" r="16"></circle>
+            <circle cx="30" cy="36" r="8.5"></circle>
+            <path d="M52 16v14a4 4 0 0 0 4 4v28"></path>
+            <path d="M60 16v14a4 4 0 0 1-4 4"></path>
+            <path d="M52 16v10"></path>
+          </svg>
+        </div>
+        <div style="padding:26px;">
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:23px; line-height:1.25; letter-spacing:-0.015em; margin:0 0 10px;">Restaurants</h3>
+          <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0 0 6px;">From only <strong style="color:var(--c-text); font-weight:600;">$1k</strong> in monthly ad spend to <strong style="color:var(--c-text); font-weight:600;">1,000+ diners</strong> and <strong style="color:var(--c-text); font-weight:600;">$100k+</strong> in monthly revenue.</p>
+          <div onClick="{{ goToCaseStudies }}" data-case-link="" style="font-size:14px; font-weight:700; color:var(--c-gold); letter-spacing:0.04em; display:inline-flex; align-items:center; gap:6px;">See The Results <span data-case-arrow="" style="display:inline-block; transition:transform 0.25s ease;">→</span></div>
+        </div>
+      </a>
+      <a href="education.html" data-reveal="" data-reveal-delay="120" data-industry-card="" style="display:block; text-decoration:none; color:inherit; border:1px solid color-mix(in srgb, var(--c-text) 10%, transparent); border-radius:4px; overflow:hidden; background:linear-gradient(160deg, color-mix(in srgb, var(--c-red) 8%, transparent), transparent 60%); opacity:0; transform:translateY(24px);">
+        <div data-industry-icon="" style="width:100%; height:150px; display:flex; align-items:center; justify-content:center; background:linear-gradient(160deg, color-mix(in srgb, var(--c-red) 14%, transparent), color-mix(in srgb, var(--c-red) 2%, transparent)); overflow:hidden;">
+          <svg width="76" height="76" viewBox="0 0 76 76" fill="none" stroke="var(--c-red)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 28 38 16l30 12-30 12Z"></path>
+            <path d="M20 34v14c0 4 8 8 18 8s18-4 18-8V34"></path>
+            <path d="M68 28v16"></path>
+          </svg>
+        </div>
+        <div style="padding:26px;">
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:23px; line-height:1.25; letter-spacing:-0.015em; margin:0 0 10px;">Education</h3>
+          <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0 0 6px;">From only <strong style="color:var(--c-text); font-weight:600;">$600</strong> in monthly ad spend to <strong style="color:var(--c-text); font-weight:600;">75+ centres</strong> and <strong style="color:var(--c-text); font-weight:600;">10,000+ enrolments</strong>.</p>
+          <div onClick="{{ goToCaseStudies }}" data-case-link="" style="font-size:14px; font-weight:700; color:var(--c-gold); letter-spacing:0.04em; display:inline-flex; align-items:center; gap:6px;">See The Results <span data-case-arrow="" style="display:inline-block; transition:transform 0.25s ease;">→</span></div>
+        </div>
+      </a>
+      <a href="health-medical.html" data-reveal="" data-industry-card="" style="display:block; text-decoration:none; color:inherit; border:1px solid color-mix(in srgb, var(--c-gold) 18%, transparent); border-radius:4px; overflow:hidden; background:linear-gradient(160deg, color-mix(in srgb, var(--c-gold) 8%, transparent), transparent 60%); opacity:0; transform:translateY(24px);">
+        <div data-industry-icon="" style="width:100%; height:150px; display:flex; align-items:center; justify-content:center; background:linear-gradient(160deg, color-mix(in srgb, var(--c-gold) 16%, transparent), color-mix(in srgb, var(--c-gold) 3%, transparent)); overflow:hidden;">
+          <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="var(--c-gold)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M36 62s-22-13.2-22-29.6C14 22 21 16 29 16c4.4 0 8 2 9 5 1-3 4.6-5 9-5 8 0 15 6 15 16.4C62 48.8 40 62 40 62Z" stroke-linejoin="round"></path>
+            <path d="M20 36h8l4-9 5 18 4-9h11"></path>
+          </svg>
+        </div>
+        <div style="padding:26px;">
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:23px; line-height:1.25; letter-spacing:-0.015em; margin:0 0 10px;">Health &amp; Medical</h3>
+          <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0 0 6px;">From only <strong style="color:var(--c-text); font-weight:600;">$1k</strong> in monthly ad spend, we grew a brand into <strong style="color:var(--c-text); font-weight:600;">3 clinics</strong> within 6 months.</p>
+          <div onClick="{{ goToCaseStudies }}" data-case-link="" style="font-size:14px; font-weight:700; color:var(--c-gold); letter-spacing:0.04em; display:inline-flex; align-items:center; gap:6px;">See The Results <span data-case-arrow="" style="display:inline-block; transition:transform 0.25s ease;">→</span></div>
+        </div>
+      </a>
+      <a href="interior-design.html" data-reveal="" data-reveal-delay="120" data-industry-card="" style="display:block; text-decoration:none; color:inherit; border:1px solid color-mix(in srgb, var(--c-gold) 18%, transparent); border-radius:4px; overflow:hidden; background:linear-gradient(160deg, color-mix(in srgb, var(--c-gold) 8%, transparent), transparent 60%); opacity:0; transform:translateY(24px);">
+        <div data-industry-icon="" style="width:100%; height:150px; display:flex; align-items:center; justify-content:center; background:linear-gradient(160deg, color-mix(in srgb, var(--c-gold) 16%, transparent), color-mix(in srgb, var(--c-gold) 3%, transparent)); overflow:hidden;">
+          <svg width="80" height="72" viewBox="0 0 80 72" fill="none" stroke="var(--c-gold)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 40v-8a8 8 0 0 1 8-8h32a8 8 0 0 1 8 8v8"></path>
+            <path d="M10 40h60v14a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4Z"></path>
+            <path d="M10 54v6M70 54v6"></path>
+            <path d="M30 24v8M50 24v8"></path>
+          </svg>
+        </div>
+        <div style="padding:26px;">
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:23px; line-height:1.25; letter-spacing:-0.015em; margin:0 0 10px;">Interior Design</h3>
+          <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0 0 6px;">From only <strong style="color:var(--c-text); font-weight:600;">$1k</strong> in monthly ad spend, we grew a firm into a <strong style="color:var(--c-text); font-weight:600;">million-dollar powerhouse</strong> with non-stop referrals and projects.</p>
+          <div onClick="{{ goToCaseStudies }}" data-case-link="" style="font-size:14px; font-weight:700; color:var(--c-gold); letter-spacing:0.04em; display:inline-flex; align-items:center; gap:6px;">See The Results <span data-case-arrow="" style="display:inline-block; transition:transform 0.25s ease;">→</span></div>
+        </div>
+      </a>
+      <a href="work.html" data-reveal="" data-industry-card="" style="display:block; text-decoration:none; color:inherit; border:1px solid color-mix(in srgb, var(--c-text) 10%, transparent); border-radius:4px; overflow:hidden; background:linear-gradient(160deg, color-mix(in srgb, var(--c-red) 8%, transparent), transparent 60%); opacity:0; transform:translateY(24px);">
+        <div data-industry-icon="" style="width:100%; height:150px; display:flex; align-items:center; justify-content:center; background:linear-gradient(160deg, color-mix(in srgb, var(--c-red) 14%, transparent), color-mix(in srgb, var(--c-red) 2%, transparent)); overflow:hidden;">
+          <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="var(--c-red)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M36 10c6 8 14 16 14 26a14 14 0 1 1-28 0c0-10 8-18 14-26Z"></path>
+            <path d="M36 40v22"></path>
+            <path d="M28 56h16"></path>
+          </svg>
+        </div>
+        <div style="padding:26px;">
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:23px; line-height:1.25; letter-spacing:-0.015em; margin:0 0 10px;">Beauty &amp; Wellness</h3>
+          <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0 0 6px;">Fuller appointment books and a steady stream of new clients for <strong style="color:var(--c-text); font-weight:600;">salons, spas, and wellness studios</strong>.</p>
+          <div onClick="{{ goToCaseStudies }}" data-case-link="" style="font-size:14px; font-weight:700; color:var(--c-gold); letter-spacing:0.04em; display:inline-flex; align-items:center; gap:6px;">See The Results <span data-case-arrow="" style="display:inline-block; transition:transform 0.25s ease;">→</span></div>
+        </div>
+      </a>
+      <a href="work.html" data-reveal="" data-reveal-delay="120" data-industry-card="" style="display:block; text-decoration:none; color:inherit; border:1px solid color-mix(in srgb, var(--c-gold) 18%, transparent); border-radius:4px; overflow:hidden; background:linear-gradient(160deg, color-mix(in srgb, var(--c-gold) 8%, transparent), transparent 60%); opacity:0; transform:translateY(24px);">
+        <div data-industry-icon="" style="width:100%; height:150px; display:flex; align-items:center; justify-content:center; background:linear-gradient(160deg, color-mix(in srgb, var(--c-gold) 16%, transparent), color-mix(in srgb, var(--c-gold) 3%, transparent)); overflow:hidden;">
+          <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="var(--c-gold)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="20" cy="20" r="7"></circle>
+            <circle cx="52" cy="20" r="7"></circle>
+            <circle cx="20" cy="52" r="7"></circle>
+            <circle cx="52" cy="52" r="7"></circle>
+          </svg>
+        </div>
+        <div style="padding:26px;">
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:23px; line-height:1.25; letter-spacing:-0.015em; margin:0 0 10px;">Other</h3>
+          <p style="font-size:15px; line-height:1.65; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0 0 6px;">We've also driven growth for <strong style="color:var(--c-text); font-weight:600;">cleaning companies, fast food, FMCG, and travel &amp; tourism</strong> brands, with the same formula adapted to your industry.</p>
+          <div onClick="{{ goToCaseStudies }}" data-case-link="" style="font-size:14px; font-weight:700; color:var(--c-gold); letter-spacing:0.04em; display:inline-flex; align-items:center; gap:6px;">See The Results <span data-case-arrow="" style="display:inline-block; transition:transform 0.25s ease;">→</span></div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section data-reveal="" data-spark-section="love" style="padding:0 clamp(20px,5vw,64px) 140px; max-width:900px; margin:0 auto; text-align:center; opacity:0; transform:translateY(24px);">
+    <div style="font-size:12px; letter-spacing:0.22em; color:var(--c-gold); margin-bottom:32px;">CLIENT RESULTS</div>
+    <p style="font-family:'Instrument Serif',serif; font-weight:400; font-style:italic; font-size:clamp(22px,3.6vw,34px); line-height:1.45; margin:0 0 32px;">
+      "Partnering with Archangel Digital Studios for SEO was a game-changer. Our organic traffic skyrocketed, and we started ranking on page one for key search terms."
+    </p>
+    <div style="font-size:14px; color:color-mix(in srgb, var(--c-text) 72%, transparent);">Roy Chang · Vice President, PCA, OrangeTee</div>
+  </section>
+
+  <!-- CTA -->
+  <section data-reveal="" data-spark-section="excited" style="padding:100px clamp(20px,5vw,64px); background:linear-gradient(160deg, color-mix(in srgb, var(--c-red) 10%, transparent), transparent 60%); border-top:1px solid color-mix(in srgb, var(--c-gold) 25%, transparent); text-align:center; opacity:0; transform:translateY(24px);">
+    <h2 style="font-family:'Instrument Serif',serif; font-weight:400; font-size:clamp(26px,4.5vw,44px); margin:0 0 20px;">Ready to drive revenue growth?</h2>
+    <p style="font-size:16px; color:color-mix(in srgb, var(--c-text) 72%, transparent); margin:0 0 40px;">Book a free consultation and start growing.</p>
+    <a data-btn="" href="contact.html" style="background:var(--c-red); color:#f5f1ea; padding:18px 40px; border-radius:2px; font-size:14px; font-weight:600; letter-spacing:0.04em; text-decoration:none; border:1px solid var(--c-gold);">Get in Touch</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding:clamp(20px,5vw,64px); border-top:1px solid color-mix(in srgb, var(--c-text) 8%, transparent); display:flex; justify-content:space-between; flex-wrap:wrap; gap:40px;">
+    <div style="max-width:320px;">
+      <img data-brand-logo="" src="assets/logo-white-gold-final.png" alt="Archangel Digital Studios" style="height:84px; width:auto; margin-bottom:20px;">
+      <p style="font-size:16px; color:color-mix(in srgb, var(--c-text) 78%, transparent); line-height:1.6;">A boutique digital marketing studio, delivering over 1000% average ROI.</p>
+    </div>
+    <div style="display:flex; gap:clamp(28px,6vw,80px);">
+      <div>
+        <div style="font-size:12px; letter-spacing:0.1em; color:color-mix(in srgb, var(--c-text) 62%, transparent); margin-bottom:16px;">SITE</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px;">
+          <a href="index.html" style="color:var(--c-text); text-decoration:none;">Home</a>
+          <a href="about.html" style="color:var(--c-text); text-decoration:none;">About Us</a>
+          <a href="services.html" style="color:var(--c-text); text-decoration:none;">Our Services</a>
+          <a href="work.html" style="color:var(--c-text); text-decoration:none;">Case Studies</a>
+          <a href="contact.html" style="color:var(--c-text); text-decoration:none;">Contact Us</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px; letter-spacing:0.1em; color:color-mix(in srgb, var(--c-text) 62%, transparent); margin-bottom:16px;">CONNECT</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; color:color-mix(in srgb, var(--c-text) 80%, transparent);">
+          <a href="mailto:accounts@archangeldigitalstudios.com" style="color:inherit; text-decoration:none;">accounts@archangeldigitalstudios.com</a>
+          <a href="https://wa.me/6590587338" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">WhatsApp Us &mdash; 9058 7338</a>
+          <span>Singapore | Malaysia | Indonesia | Australia</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <div style="text-align:center; padding:20px; font-size:12px; color:color-mix(in srgb, var(--c-text) 60%, transparent); border-top:1px solid color-mix(in srgb, var(--c-text) 6%, transparent);">Copyright © 2026 Archangel Digital Studios. We are a certified Google &amp; Meta Partner agency.</div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.quizState = { step: 0, businessType: null, revenue: null, website: null, leads: null, seo: null, social: null, visuals: null, shoots: null, selected: null, open: "revenue" };
+    this._typedStep = -1;
+    this._typeTimer = null;
+    this.statsRef = React.createRef();
+    this.state = { typedText: "", typedOpacity: 0, statsProgress: 0 };
+    this.pick = this.pick.bind(this);
+    this.toggleSection = this.toggleSection.bind(this);
+    this.toggleSvc = this.toggleSvc.bind(this);
+    this._statsAnimating = false;
+    this._statsDone = false;
+  }
+
+  componentDidMount() {
+    this._running = true;
+
+    // Stat counters animate up once the strip first scrolls into view.
+    // Checked on a plain interval (rather than an IntersectionObserver) for
+    // the same reliability reasons as elsewhere in this project — this
+    // keeps working even in backgrounded tabs.
+    this._checkStatsReveal = () => {
+      if (this._statsDone || this._statsAnimating) return;
+      const el = this.statsRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top > window.innerHeight || rect.bottom < 0) return;
+      if (rect.top < window.innerHeight * 0.92) {
+        this._statsAnimating = true;
+        const start = performance.now();
+        const duration = 1400;
+        const step = (now) => {
+          const t = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - t, 3);
+          this.setState({ statsProgress: eased });
+          if (t < 1) {
+            requestAnimationFrame(step);
+          } else {
+            this._statsDone = true;
+            this._statsAnimating = false;
+          }
+        };
+        requestAnimationFrame(step);
+      }
+    };
+
+    this._raf = setInterval(() => {
+      if (!this._running) return;
+      this._checkStatsReveal();
+    }, 100);
+  }
+
+  componentWillUnmount() {
+    this._running = false;
+    if (this._raf) clearInterval(this._raf);
+    clearInterval(this._typeTimer);
+  }
+
+  setQuiz(patch) {
+    this.quizState = { ...this.quizState, ...patch };
+    this.forceUpdate();
+  }
+
+  // One handler for every answer button; the answer lives in data-* attrs on the
+  // button itself, so no per-option closures can go stale between renders.
+  pick(e) {
+    const d = e.currentTarget.dataset;
+    if (!d || !d.key) return;
+    const patch = { [d.key]: d.val };
+    if (d.next) patch.step = Number(d.next);
+    const order = ["revenue", "website", "leads", "seo", "social", "visuals"];
+    if (order.includes(d.key)) {
+      const answered = Object.assign({}, this.quizState, patch);
+      patch.open = order.find((k) => !answered[k]) || null;
+    }
+    this.setQuiz(patch);
+  }
+
+  toggleSection(e) {
+    const s = e.currentTarget.dataset.section;
+    this.setQuiz({ open: this.quizState.open === s ? null : s });
+  }
+
+  answerLabel(key) {
+    const q = this.quizState;
+    const maps = {
+      businessType: { restaurant: "Restaurant & Food", education: "Education", health: "Health & Medical", interior: "Interior Design", other: "Other" },
+      revenue: { thriving: "We're thriving, just want to scale further", ok: "I'm doing okay, but I want to earn more", struggling: "I can't survive if this continues" },
+      website: { good: "Yes, it's well designed and brings in enquiries", okay: "It's okay, but could do better", none: "We don't have a website" },
+      leads: { day: "Yes, 1 to 2 or more leads a day", week: "Yes, about 1 to 2 leads a week", month: "Yes, about 1 to 2 leads a month", none: "No, we don't advertise" },
+      seo: { top: "Yes, we rank on the first page for our main services", some: "Sometimes, but not for the searches that matter most", none: "We don't show up", unsure: "I'm not sure" },
+      social: { strong: "Yes, we post consistently and the audience is growing", patchy: "We post, but not consistently", none: "We're barely on social media" },
+      visuals: { fresh: "Yes, shot recently and we use it everywhere", dated: "We have some, but it's outdated", none: "We didn't think photos or videos of our business were useful" }
+    };
+    return maps[key][q[key]] || "";
+  }
+
+  getFindings() {
+    const q = this.quizState;
+    const s2 = this.getStat2();
+    const site = this.getRevealContent(5);
+    const ads = this.getRevealContent(7);
+    const seo = {
+      top: "Holding page one is the hard part. We defend those rankings and widen them into the searches you have not won yet.",
+      some: "Ranking for the wrong searches brings traffic but not customers. We target the ones with buying intent.",
+      none: "Every search you miss is a customer your competitor gets for free, and they pay nothing per click for it. It is bigger than Google now: ChatGPT, Gemini and AI Overviews answer buying questions by naming a handful of businesses, and they pull from the sites they can actually read. If you are invisible in search, you are invisible there too, and that is a huge amount of opportunity going to someone else.",
+      unsure: "Most owners are not, and that is usually where the easiest growth is hiding. We audit it for free."
+    };
+    const social = {
+      strong: "Consistency is the hard part, and you have it. The next lift comes from turning that audience into enquiries.",
+      patchy: "Consistency is everything here. It is what builds brand recall and keeps you top of mind, and it is what the algorithms reward \u2014 accounts that post steadily get pushed to new audiences, while stop-start posting resets your reach every time. A planned content calendar compounds instead: every post makes the next one cheaper to distribute.",
+      none: "Your competitors are being found on social while you are not in the conversation."
+    };
+    const visuals = {
+      fresh: "Good assets age quickly. A steady stream of them is what keeps campaigns performing.",
+      dated: "The way your customers consume media keeps changing, so your content has to be engaging and current. Dated visuals quietly cost you clicks \u2014 people read them as a business that has not moved in years. Fresh photography and video usually lift ad performance more than new copy does, and one shoot feeds your site, your ads and months of social.",
+      none: "Ads and websites live or die on their visuals. This is the raw material for everything else we do."
+    };
+    return [
+      { num: "01", label: "REVENUE", answer: this.answerLabel("revenue"), number: s2[0], text: s2[1], price: "" },
+      { num: "02", label: site.tag, answer: this.answerLabel("website"), number: "", text: site.text, price: site.price },
+      { num: "03", label: ads.tag, answer: this.answerLabel("leads"), number: "", text: ads.text, price: ads.price },
+      { num: "04", label: "SEARCH ENGINE OPTIMISATION", answer: this.answerLabel("seo"), number: "", text: seo[q.seo] || seo.some, price: "From $1,200 / month" },
+      { num: "05", label: "SOCIAL MEDIA MARKETING", answer: this.answerLabel("social"), number: "", text: social[q.social] || social.patchy, price: "From $1,200 / month" },
+      { num: "06", label: "PHOTOGRAPHY & VIDEOGRAPHY", answer: this.answerLabel("visuals"), number: "", text: visuals[q.visuals] || visuals.dated, price: "From $800 / shoot" }
+    ];
+  }
+
+  toggleSvc(e) {
+    const key = e.currentTarget.dataset.svc;
+    if (!key) return;
+    const sel = new Set(this.quizState.selected || this.defaultSelection());
+    if (sel.has(key)) sel.delete(key); else sel.add(key);
+    this.setQuiz({ selected: sel });
+  }
+
+  startTyping(text) {
+    clearInterval(this._typeTimer);
+    this.setState({ typedText: "", typedOpacity: 0 });
+    requestAnimationFrame(() => {
+      this.setState({ typedText: text, typedOpacity: 1 });
+    });
+  }
+
+  getRevealContent(step) {
+    const q = this.quizState;
+    if (step === 1) {
+      const stat1 = this.getStat1();
+      return { number: stat1[0], text: stat1[1], accent: "var(--c-gold)", hasPrice: false };
+    }
+    if (step === 3) {
+      const stat2 = this.getStat2();
+      return { number: stat2[0], text: stat2[1], accent: "var(--c-red)", hasPrice: false };
+    }
+    if (step === 5) {
+      const site = {
+        good: "A good site can still work harder. Yours is also where AI search looks first, so we tune it for people and machines alike.",
+        okay: "Just okay is insufficient for a business. We don't only look at design or user experience \u2014 we map what a visitor does, step by step, so it leads to a lead or a conversion for you. And yes, our websites have won awards for design too.",
+        none: "Without a site, every ad and every search result has nowhere to send people. This is where we start."
+      };
+      return {
+        tag: "WEBSITE DESIGN & DEVELOPMENT",
+        text: (site[q.website] || site.okay) + " We design for every device, with a lifetime warranty.",
+        price: "From $2,000 onwards",
+        accent: "var(--c-gold)",
+        hasPrice: true
+      };
+    }
+    if (step === 7) {
+      const leads = {
+        day: "Strong volume. Our job is to cut your cost per lead and lift the quality, so more of them actually convert.",
+        week: "There's real room to improve here, and our advertising specialists do exactly this. We audit where every dollar goes, cut the keywords and audiences quietly draining budget, and move that spend into the campaigns already bringing you leads. From there it's continuous testing \u2014 creative, copy, audiences, landing pages \u2014 until one to two leads a week becomes a steady pipeline you can plan around.",
+        month: "That's a trickle, and it usually means the spend is fighting the funnel rather than feeding it.",
+        none: "Right now that leaves you on word of mouth, while the demand for your services already exists today."
+      };
+      return {
+        tag: "GOOGLE, META & TIKTOK ADS",
+        text: (leads[q.leads] || leads.week) + " Paid search and social put you in front of buyers who are ready today.",
+        price: "From $1,200 / month",
+        accent: "var(--c-gold)",
+        hasPrice: true
+      };
+    }
+    return { text: "" };
+  }
+
+  getStat1() {
+    const map = {
+      restaurant: ["90%+", "of our F&B clients exceed their diner and revenue goals with us."],
+      education: ["100%", "of our education clients hit their enrolment goals, and grow well past their current number of centres."],
+      health: ["Page 1", "of Google. We don't just get our health and medical clients more enquiries, we put them top of mind with patients."],
+      interior: ["100", "enquiries in two weeks on under $200 of ad spend. Our record for an interior design client."],
+      other: ["20+", "industries and counting. We have a wealth of experience marketing many different industries. Speak to us today about your marketing, design and branding needs."]
+    };
+    return map[this.quizState.businessType] || map.other;
+  }
+
+  getStat2() {
+    const biz = this.quizState.businessType;
+    const map = {
+      ok: {
+        restaurant: ["75%", "of our F&B clients have opened an additional outlet under our care. Steady is the starting point; we help you thrive from there."],
+        education: ["71%", "of centres we meet feel the same: stable, but capped."],
+        health: ["65%", "of clinics we meet feel the same: stable, but capped."],
+        interior: ["70%", "of firms we meet feel the same: stable, but capped."],
+        other: ["68%", "of businesses feel the same: stable, but capped."]
+      },
+      struggling: {
+        restaurant: ["1 in 3", "restaurants we onboard start in survival mode, and become profitable within six months to a year."],
+        education: ["1 in 4", "education centres we onboard start in survival mode, and become profitable within six months to a year."],
+        health: ["1 in 3", "clinics we onboard start in survival mode, and become profitable within six months to a year."],
+        interior: ["1 in 3", "firms we onboard start in survival mode, and become profitable within six months to a year."],
+        other: ["1 in 3", "clients we onboard start in survival mode, and become profitable within six months to a year."]
+      },
+      thriving: {
+        restaurant: ["74%", "of thriving restaurants still leave revenue on the table."],
+        education: ["77%", "of thriving centres still leave revenue on the table."],
+        health: ["72%", "of thriving clinics still leave revenue on the table."],
+        interior: ["76%", "of thriving firms still leave revenue on the table."],
+        other: ["74%", "of thriving businesses still leave revenue on the table."]
+      }
+    };
+    const group = map[this.quizState.revenue] || map.ok;
+    return group[biz] || group.other;
+  }
+
+  buildPlan() {
+    const q = this.quizState;
+    const plan = [];
+    if (q.website === "none" || q.website === "okay") {
+      plan.push({ tag: "DIGITAL PRESENCE", title: "Website Design & Development", link: "website-design.html" });
+    }
+    if (q.seo === "some" || q.seo === "none" || q.seo === "unsure") {
+      plan.push({ tag: "ORGANIC GROWTH", title: "Search Engine Optimisation", link: "seo.html" });
+    }
+    if (q.leads === "month" || q.leads === "none") {
+      plan.push({ tag: "GOOGLE, META & TIKTOK ADS", title: "Lead Generation", link: "lead-generation.html" });
+      plan.push({ tag: "ORGANIC GROWTH", title: "Search Engine Optimisation", link: "seo.html" });
+    } else if (q.leads === "week") {
+      plan.push({ tag: "GOOGLE, META & TIKTOK ADS", title: "Lead Generation", link: "lead-generation.html" });
+    } else if (q.leads === "day") {
+      plan.push({ tag: "RETENTION", title: "Loyalty Marketing", link: "loyalty-marketing.html" });
+    }
+    if (q.shoots === "hardly" || q.shoots === "quarterly") {
+      plan.push({ tag: "VISUAL CONTENT", title: "Photography & Videography", link: "photography.html" });
+    }
+    if (plan.length === 0) {
+      plan.push({ tag: "STRATEGY", title: "Corporate Marketing Consultation", link: "marketing-consultation.html" });
+    }
+    // de-dupe and cap at 3
+    const seen = new Set();
+    return plan.filter((p) => (seen.has(p.title) ? false : (seen.add(p.title), true))).slice(0, 3);
+  }
+
+  getAllServices() {
+    return [
+      { key: "website", title: "Website Design & Development", price: "From $2,000" },
+      { key: "seo", title: "Search Engine Optimisation", price: "$1,200 / mo" },
+      { key: "leadgen", title: "Lead Generation (Google, Meta & TikTok Ads)", price: "$1,200 / mo" },
+      { key: "social", title: "Social Media Marketing", price: "$1,200 / mo" },
+      { key: "loyalty", title: "Loyalty Marketing", price: "$500 / mo" },
+      { key: "photo", title: "Photography", price: "From $800 / shoot" },
+      { key: "video", title: "Videography", price: "From $1,200 / project" }
+    ];
+  }
+
+  defaultSelection() {
+    const q = this.quizState;
+    const sel = new Set();
+    if (q.website === "needs-work" || q.website === "none" || q.website === "okay") sel.add("website");
+    if (q.leads === "month" || q.leads === "none") { sel.add("leadgen"); sel.add("seo"); sel.add("photo"); }
+    else if (q.leads === "week") { sel.add("leadgen"); sel.add("photo"); }
+    if (q.revenue === "struggling") sel.add("loyalty");
+    if (q.seo === "some" || q.seo === "none" || q.seo === "unsure") sel.add("seo");
+    if (q.social === "patchy" || q.social === "none") sel.add("social");
+    if (q.visuals === "dated" || q.visuals === "none") { sel.add("photo"); sel.add("video"); }
+    if (sel.size === 0) sel.add("leadgen");
+    return sel;
+  }
+
+  getFlock() {
+    // left %, size px, fall duration s, delay s, sway duration s
+    const specs = [
+      [6, 20, 17, 0, 3.4], [14, 12, 23, 6, 4.6], [23, 26, 14, 11, 2.8],
+      [31, 14, 20, 3, 3.9], [42, 18, 26, 14, 5.2], [51, 10, 19, 8, 3.2],
+      [59, 24, 15, 17, 4.1], [68, 14, 22, 2, 3.6], [77, 20, 18, 12, 4.8],
+      [86, 12, 25, 7, 3.1], [94, 22, 16, 20, 4.4]
+    ];
+    return specs.map(([left, size, dur, delay, sway]) => ({
+      size: size,
+      style: `left:${left}%; animation-duration:${dur}s; animation-delay:-${delay}s;`,
+      swayStyle: `animation-duration:${sway}s;`
+    }));
+  }
+
+  renderVals() {
+    const q = this.quizState;
+    const activeColor = "var(--c-gold)";
+    const idleColor = "color-mix(in srgb, var(--c-text) 12%, transparent)";
+    // steps: 0 industry, 1 question group, 2 diagnosis, 3 plan
+    const complete = !!(q.revenue && q.website && q.leads && q.seo && q.social && q.visuals);
+    if (!q.selected && q.step === 3) q.selected = this.defaultSelection();
+    const sel = (key, val) => (q[key] === val ? "var(--c-gold)" : "color-mix(in srgb, var(--c-text) 12%, transparent)");
+    const selected = q.selected || new Set();
+    const allServices = this.getAllServices().map((svc) => {
+      const isOn = selected.has(svc.key);
+      return {
+        ...svc,
+        borderColor: isOn ? "var(--c-gold)" : "color-mix(in srgb, var(--c-text) 12%, transparent)",
+        bg: isOn ? "color-mix(in srgb, var(--c-gold) 8%, var(--c-bg))" : "var(--c-bg)",
+        checkBorder: isOn ? "var(--c-gold)" : "color-mix(in srgb, var(--c-text) 25%, transparent)",
+        checkBg: isOn ? "var(--c-gold)" : "transparent",
+        checkMark: isOn ? "\u2713" : ""
+      };
+    });
+    return {
+      flock: this.getFlock(),
+      bar1Color: "var(--c-gold)",
+      bar2Color: q.step >= 1 ? "var(--c-gold)" : idleColor,
+      bar3Color: q.step >= 2 ? "var(--c-gold)" : idleColor,
+      bar4Color: q.step >= 3 ? "var(--c-gold)" : idleColor,
+      isStep0: q.step === 0,
+      isQuestions: q.step === 1,
+      isDiagnosis: q.step === 2,
+      isPlanStep: q.step === 3,
+      affirmNumber: this.getStat1()[0],
+      affirmText: this.getStat1()[1],
+      showBack: q.step > 0,
+      goBack: () => this.setQuiz({ step: Math.max(0, q.step - 1) }),
+      restartQuiz: () => this.setQuiz({ step: 0, businessType: null, revenue: null, website: null, leads: null, seo: null, social: null, visuals: null, shoots: null, selected: null, open: "revenue" }),
+      seeDiagnosis: () => { if (complete) this.setQuiz({ step: 2 }); },
+      ctaOpacity: complete ? 1 : 0.45,
+      ctaHint: complete ? "" : "Answer all six to see your diagnosis.",
+      findings: q.step === 2 ? this.getFindings() : [],
+      advanceFromReveal: () => this.setQuiz({ step: 3 }),
+      allServices: q.step === 3 ? allServices : [],
+      pick: this.pick,
+      toggleSection: this.toggleSection,
+      toggleSvc: this.toggleSvc,
+      openRevenue: q.open === "revenue",
+      openWebsite: q.open === "website",
+      openLeads: q.open === "leads",
+      openSeo: q.open === "seo",
+      openSocial: q.open === "social",
+      openVisuals: q.open === "visuals",
+      iRevenue: q.open === "revenue" ? "\u2013" : "+",
+      iWebsite: q.open === "website" ? "\u2013" : "+",
+      iLeads: q.open === "leads" ? "\u2013" : "+",
+      iSeo: q.open === "seo" ? "\u2013" : "+",
+      iSocial: q.open === "social" ? "\u2013" : "+",
+      iVisuals: q.open === "visuals" ? "\u2013" : "+",
+      aRevenue: q.revenue ? this.answerLabel("revenue") : "",
+      aWebsite: q.website ? this.answerLabel("website") : "",
+      aLeads: q.leads ? this.answerLabel("leads") : "",
+      aSeo: q.seo ? this.answerLabel("seo") : "",
+      aSocial: q.social ? this.answerLabel("social") : "",
+      aVisuals: q.visuals ? this.answerLabel("visuals") : "",
+      bRestaurant: sel("businessType", "restaurant"),
+      bEducation: sel("businessType", "education"),
+      bHealth: sel("businessType", "health"),
+      bInterior: sel("businessType", "interior"),
+      bOther: sel("businessType", "other"),
+      rThriving: sel("revenue", "thriving"),
+      rOk: sel("revenue", "ok"),
+      rStruggling: sel("revenue", "struggling"),
+      wGood: sel("website", "good"),
+      wOkay: sel("website", "okay"),
+      wNone: sel("website", "none"),
+      lDay: sel("leads", "day"),
+      lWeek: sel("leads", "week"),
+      lMonth: sel("leads", "month"),
+      lNone: sel("leads", "none"),
+      qTop: sel("seo", "top"),
+      qSome: sel("seo", "some"),
+      qNone: sel("seo", "none"),
+      qUnsure: sel("seo", "unsure"),
+      sStrong: sel("social", "strong"),
+      sPatchy: sel("social", "patchy"),
+      sNone: sel("social", "none"),
+      vFresh: sel("visuals", "fresh"),
+      vDated: sel("visuals", "dated"),
+      vNone: sel("visuals", "none"),
+      goToCaseStudies: (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        window.location.href = 'work.html';
+      },
+      statsRef: this.statsRef,
+      stats: [
+        { value: Math.round(1000 * (this.state.statsProgress || 0)) + "%+", label: "AVERAGE CLIENT ROI" },
+        { value: String(Math.round(6 * (this.state.statsProgress || 0))), label: "CORE SERVICE LINES" },
+        { value: String(Math.round(6 * (this.state.statsProgress || 0))), label: "SPECIALIST INDUSTRIES" },
+        { value: "SG", label: "GOOGLE & META PARTNER CERTIFIED" }
+      ],
+      industries: [
+        { name: "Restaurants", desc: "More diners, more repeat visits, every month." },
+        { name: "Education", desc: "Full enrollment pipelines, built and nurtured for you." },
+        { name: "Health & Medical", desc: "More bookings and a trusted reputation online." },
+        { name: "Interior Design", desc: "Maximum exposure in front of clients who can afford you." },
+        { name: "Beauty & Wellness", desc: "Fuller appointment books for salons, spas, and studios." },
+        { name: "Other", desc: "Cleaning, fast food, FMCG, travel & tourism, and more." }
+      ],
+      services: [
+        { num: "01", title: "Corporate Marketing Consultation", desc: "Where every engagement starts: a clear, proven strategy matched to your business goals.", link: "marketing-consultation.html" },
+        { num: "02", title: "Search Engine Optimisation", desc: "Rank higher, get found first, and turn searches into customers.", link: "seo.html" },
+        { num: "03", title: "Lead Generation", desc: "Google, Meta, and TikTok Ads that turn clicks into paying customers.", link: "lead-generation.html" },
+        { num: "04", title: "Social Media Marketing", desc: "Content and campaigns that build a loyal, growing audience.", link: "social-media-marketing.html" },
+        { num: "05", title: "Website Design & Development", desc: "A website that works as hard as you do, on every device.", link: "website-design.html" },
+        { num: "06", title: "Mobile App Design & Development", desc: "An app your customers love using, built to keep them coming back.", link: "mobile-app-design.html" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

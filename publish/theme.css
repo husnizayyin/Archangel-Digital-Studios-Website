@@ -1,0 +1,82 @@
+/* Shared theme tokens for archangeldigitalstudios.com — linked from every
+   page's <helmet>. Dark is the default/original palette; [data-theme="light"]
+   on <html> swaps the token values. Elements still style themselves via
+   inline `style="...var(--c-x)..."` — this file only defines token values
+   and the couple of attribute-selector rules (logo filter, toggle icon,
+   smooth crossfade) that can't be expressed inline. */
+
+:root {
+  --c-bg: #0a1120;
+  --c-bg-alt: #0d1526;
+  --c-bg-alt2: #131f38;
+  --c-text: #f5f1ea;
+  --c-gold: #d4a017;
+  --c-red: #e2231a;
+}
+
+:root[data-theme="light"] {
+  --c-bg: #f7f3ea;
+  --c-bg-alt: #ffffff;
+  --c-bg-alt2: #efe7d4;
+  --c-text: #17170f;
+  --c-gold: #a8790e;
+  --c-red: #b3492e;
+}
+
+html, body { background: var(--c-bg); }
+
+[data-screen-label] {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+[data-screen-label] * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.15s ease;
+}
+
+img[data-brand-logo] {
+  transition: filter 0.3s ease;
+}
+/* Light mode uses the full-colour lockup instead (src swapped in theme-toggle.js). */
+
+/* Theme toggle button (sun/moon), wired up by theme-toggle.js */
+[data-theme-toggle] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--c-text) 25%, transparent);
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+[data-theme-toggle]:hover {
+  border-color: var(--c-gold);
+  background: color-mix(in srgb, var(--c-gold) 10%, transparent);
+}
+[data-theme-toggle] svg { display: block; }
+[data-theme-toggle] .icon-sun { display: none; }
+[data-theme-toggle] .icon-moon { display: block; }
+:root[data-theme="light"] [data-theme-toggle] .icon-sun { display: block; }
+:root[data-theme="light"] [data-theme-toggle] .icon-moon { display: none; }
+
+/* CTA hover / press states (buttons tagged with data-btn) */
+[data-btn] {
+  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s ease,
+              filter 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+[data-btn]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px -12px rgba(0,0,0,0.45);
+  filter: brightness(1.08);
+}
+:root[data-theme="light"] [data-btn]:hover {
+  box-shadow: 0 12px 26px -14px rgba(23,23,15,0.32);
+  filter: brightness(1.04);
+}
+[data-btn]:active { transform: translateY(0); box-shadow: none; }
+[data-btn-outline]:hover {
+  border-color: var(--c-gold) !important;
+  background: color-mix(in srgb, var(--c-gold) 12%, transparent) !important;
+}
